@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Langmentor AI</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="tailwind.js"></script>
         <script>
             // Configuração para personalizar a cor primária
             tailwind.config = {
@@ -164,7 +164,6 @@
                 // Adicionar evento para Check a resposta ao pressionar Enter
                 const answerInput = document.getElementById("answer-input");
                 answerInput.addEventListener("keypress", (event) => {
-                    console.log("enter");
                     if (event.key === "Enter") {
                         // Verifica quais botões estão visíveis e chama a função apropriada
                         if (!checkButton.classList.contains("hidden") && showAnswerButton.classList.contains("hidden")) {
@@ -280,7 +279,6 @@
                     const naturalVoice = voices.find((voice) => voice.name.includes("Google US English")); // Altere conforme necessário
 
                     if (naturalVoice) {
-                        console.log("natural");
                         utterance.voice = naturalVoice;
                     }
 
@@ -293,8 +291,6 @@
 
             // Inicializar o jogo carregando a primeira frase
             loadSentence();
-
-			
         </script>
         <script src="https://mikaio.dev/magic-link-auth/auth.js"></script>
     </body>
