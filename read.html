@@ -1,202 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Langmentor AI - Read Practice</title>
-     <script src="tailwind.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#0F8AFD", // Nova cor primária
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Langmentor AI - Read Practice</title>
+        <script src="tailwind.js"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: "#0F8AFD", // Nova cor primária
+                        },
                     },
                 },
-            },
-        };
-    </script>
-</head>
-<body class="bg-gray-100">
-    <!-- Navbar -->
-    <nav class="bg-primary p-2 md:p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <img src="icon.svg" alt="Icon" class="w-8 h-8" />
-                <h1 class="text-white text-center text-xl md:text-2xl font-bold">LangmentorAI</h1>
+            };
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="call_to_donate.js"></script>
+    </head>
+    <body class="bg-gray-100">
+        <!-- Navbar -->
+        <nav class="bg-primary p-2 md:p-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <img src="icon.svg" alt="Icon" class="w-8 h-8" />
+                    <h1 class="text-white text-center text-xl md:text-2xl font-bold">LangmentorAI</h1>
+                </div>
+                <button id="logoutButton" class="bg-red-500 text-white font-semibold px-2 py-1 md:px-4 md:py-2 rounded hover:bg-red-600 text-sm md:text-base hidden">
+                    Logout
+                </button>
             </div>
-            <button id="logoutButton" class="bg-red-500 text-white font-semibold px-2 py-1 md:px-4 md:py-2 rounded hover:bg-red-600 text-sm md:text-base hidden">
-                Logout
-            </button>
-            
-        </div>
-    </nav>
-    <div class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-2 flex space-x-4 overflow-x-auto whitespace-nowrap">
-            <a href="index.html" class="text-gray-600 hover:text-primary pb-2">Learn</a>
-            <a href="read.html" class="text-primary border-b-4 border-primary font-semibold pb-2">Read</a>
-            <!-- <a href="info.html" class="text-gray-600 hover:text-primary pb-2">Info</a>
+        </nav>
+        <div class="bg-white shadow-md">
+            <div class="container mx-auto px-4 py-2 flex space-x-4 overflow-x-auto whitespace-nowrap">
+                <a href="index.html" class="text-gray-600 hover:text-primary pb-2">Learn</a>
+                <a href="read.html" class="text-primary border-b-4 border-primary font-semibold pb-2">Read</a>
+                <!-- <a href="info.html" class="text-gray-600 hover:text-primary pb-2">Info</a>
             <a href="pricing.html" class="text-gray-600 hover:text-primary pb-2">Pricing</a>
             <a href="profile.html" class="text-gray-600 hover:text-primary pb-2">Profile</a> -->
+            </div>
         </div>
-    </div>
-    <!-- Main Content -->
-    <div class="container mx-auto mt-6 p-6 bg-white shadow-lg rounded-lg">
-        <p class="text-gray-400 mt-2 mb-4">Click at word to listen pronunciation!</p>
+        <!-- Main Content -->
+        <div class="container mx-auto mt-6 p-6 bg-white shadow-lg rounded-lg">
+            <p class="text-gray-400 mt-2 mb-4">Click at word to listen pronunciation!</p>
 
-        <div id="text-container" class="mb-4 text-xl">
-            <!-- Texto será inserido aqui -->
+            <div id="text-container" class="mb-4 text-xl">
+                <!-- Texto será inserido aqui -->
+            </div>
+
+            <button id="read-button" class="bg-primary text-white font-semibold px-4 py-2 rounded inline-flex items-center">
+                🎙️ Read
+            </button>
+            <p id="status" class="text-gray-600 mt-2">Click "Read" and start reading aloud!</p>
+
+            <!-- Div para exibir o que o usuário está falando -->
+            <div id="transcript-container" class="mt-4 bg-gray-200 p-4 rounded-lg text-lg">
+                <p><strong>What you're saying:</strong> <span id="transcript"></span></p>
+            </div>
+            <button id="restart-button" class="bg-primary mt-8 text-white font-semibold px-4 py-2 rounded inline-flex items-center" style="display: none;">
+                🔄 Read another
+            </button>
         </div>
-       
-        <button id="read-button" class="bg-primary text-white font-semibold px-4 py-2 rounded inline-flex items-center">
-            🎙️ Read
-        </button>
-        <p id="status" class="text-gray-600 mt-2">Click "Read" and start reading aloud!</p>
-        
-        
-        <!-- Div para exibir o que o usuário está falando -->
-        <div id="transcript-container" class="mt-4 bg-gray-200 p-4 rounded-lg text-lg">
-            <p><strong>What you're saying:</strong> <span id="transcript"></span></p>
-        </div>
-        <button id="restart-button" class="bg-primary  mt-8 text-white font-semibold px-4 py-2 rounded inline-flex items-center" style="display:none;">
-            🔄 Read another
-        </button>
-        
 
-        
-    </div>
+        <script src="scripts/phrases-read.js"></script>
+        <script>
+            const textContainer = document.getElementById("text-container");
+            const readButton = document.getElementById("read-button");
+            const statusText = document.getElementById("status");
+            const transcriptDisplay = document.getElementById("transcript"); // Referência ao div da transcrição
 
-    <script src="scripts/phrases-read.js"></script>
-    <script>
-        const textContainer = document.getElementById('text-container');
-        const readButton = document.getElementById('read-button');
-        const statusText = document.getElementById('status');
-        const transcriptDisplay = document.getElementById('transcript'); // Referência ao div da transcrição
+            // Mostra um texto aleatório sempre que a página é carregada
+            const randomText = texts[Math.floor(Math.random() * texts.length)];
+            const words = randomText.split(" "); // Divide o texto em palavras
+            let currentWordIndex = 0; // Controla a palavra atual
 
-        // Mostra um texto aleatório sempre que a página é carregada
-        const randomText = texts[Math.floor(Math.random() * texts.length)];
-        const words = randomText.split(" "); // Divide o texto em palavras
-        let currentWordIndex = 0; // Controla a palavra atual
-
-        function displayWords() {
-            textContainer.innerHTML = words.map((word, index) => {
-                if (index === currentWordIndex) {
-                    return `<span id="current-word" class="font-bold cursor-pointer" onclick="speakWord('${word}')">${word}</span>`; // Palavra atual destacada com clique
-                } else if (index < currentWordIndex) {
-                    return `<span class="text-green-500 cursor-pointer" onclick="speakWord('${word}')">${word}</span>`; // Palavras corretas em verde com clique
-                }
-                return `<span class="cursor-pointer" onclick="speakWord('${word}')">${word}</span>`; // Demais palavras com clique
-            }).join(" ");
-        }
-
-        displayWords();
-
-        // Configuração do reconhecimento de fala
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'en-US';
-        recognition.interimResults = true;
-
-        // Função de TTS
-        function speakWord(text) {
-            const speech = new SpeechSynthesisUtterance(text);
-            speech.lang = "en-US";
-            speech.rate = 1;
-            speech.pitch = 1;
-            speech.volume = 1;
-
-            const voices = speechSynthesis.getVoices();
-            const naturalVoice = voices.find((voice) => voice.name.includes("Google US English"));
-            if (naturalVoice) {
-                speech.voice = naturalVoice;
+            function displayWords() {
+                textContainer.innerHTML = words
+                    .map((word, index) => {
+                        if (index === currentWordIndex) {
+                            return `<span id="current-word" class="font-bold cursor-pointer" onclick="speakWord('${word}')">${word}</span>`; // Palavra atual destacada com clique
+                        } else if (index < currentWordIndex) {
+                            return `<span class="text-green-500 cursor-pointer" onclick="speakWord('${word}')">${word}</span>`; // Palavras corretas em verde com clique
+                        }
+                        return `<span class="cursor-pointer" onclick="speakWord('${word}')">${word}</span>`; // Demais palavras com clique
+                    })
+                    .join(" ");
             }
 
-            window.speechSynthesis.speak(speech);
-        }
+            displayWords();
 
-        // Função para remover pontuação
-function removePunctuation(text) {
-    return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
-}
+            // Configuração do reconhecimento de fala
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = "en-US";
+            recognition.interimResults = true;
 
-// Inicia reconhecimento de fala apenas uma vez
-let permissionGranted = localStorage.getItem('speechPermission') === 'granted';
-let isRecognizing = false; // Variável para controlar se o reconhecimento está em andamento
+            // Função de TTS
+            function speakWord(text) {
+                const speech = new SpeechSynthesisUtterance(text);
+                speech.lang = "en-US";
+                speech.rate = 1;
+                speech.pitch = 1;
+                speech.volume = 1;
 
-readButton.addEventListener('click', () => {
-    if (!permissionGranted) {
-        // Solicita permissão para o reconhecimento de fala
-        recognition.start();
-        permissionGranted = true;
-        localStorage.setItem('speechPermission', 'granted'); // Armazena a permissão no localStorage
-        statusText.textContent = "Listening...";
-    } else {
-        if (!isRecognizing) {
-            recognition.start(); // Inicia a escuta
-            statusText.textContent = "Listening...";
-        } else {
-            // Já está reconhecendo, não faz nada
-            statusText.textContent = "Already listening...";
-        }
-    }
-});
+                const voices = speechSynthesis.getVoices();
+                const naturalVoice = voices.find((voice) => voice.name.includes("Google US English"));
+                if (naturalVoice) {
+                    speech.voice = naturalVoice;
+                }
 
-recognition.addEventListener('start', () => {
-    isRecognizing = true;
-});
+                window.speechSynthesis.speak(speech);
+            }
 
-recognition.addEventListener('end', () => {
-    isRecognizing = false;
+            // Função para remover pontuação
+            function removePunctuation(text) {
+                return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
+            }
 
-    if (currentWordIndex < words.length) {
-        recognition.start(); // Reinicia a escuta para capturar a próxima palavra
-        statusText.textContent = "Listening...";
-    } else {
-        statusText.textContent = "Recognition finished. Well done!";
-        document.getElementById('restart-button').style.display = 'inline-block'; // Exibe o botão de reiniciar
-    }
-});
+            // Inicia reconhecimento de fala apenas uma vez
+            let permissionGranted = localStorage.getItem("speechPermission") === "granted";
+            let isRecognizing = false; // Variável para controlar se o reconhecimento está em andamento
 
+            readButton.addEventListener("click", () => {
+                if (!permissionGranted) {
+                    // Solicita permissão para o reconhecimento de fala
+                    recognition.start();
+                    permissionGranted = true;
+                    localStorage.setItem("speechPermission", "granted"); // Armazena a permissão no localStorage
+                    statusText.textContent = "Listening...";
+                } else {
+                    if (!isRecognizing) {
+                        recognition.start(); // Inicia a escuta
+                        statusText.textContent = "Listening...";
+                    } else {
+                        // Já está reconhecendo, não faz nada
+                        statusText.textContent = "Already listening...";
+                    }
+                }
+            });
 
-recognition.addEventListener('result', (event) => {
-    const transcript = Array.from(event.results)
-        .map(result => result[0].transcript)
-        .join('')
-        .trim()
-        .toLowerCase();
+            recognition.addEventListener("start", () => {
+                isRecognizing = true;
+            });
 
-    // Remove pontuação da transcrição
-    const cleanTranscript = removePunctuation(transcript);
+            recognition.addEventListener("end", () => {
+                isRecognizing = false;
 
-    // Exibe a transcrição em tempo real
-    transcriptDisplay.textContent = transcript;
+                if (currentWordIndex < words.length) {
+                    recognition.start(); // Reinicia a escuta para capturar a próxima palavra
+                    statusText.textContent = "Listening...";
+                } else {
+                    statusText.textContent = "Recognition finished. Well done!";
+                    document.getElementById("restart-button").style.display = "inline-block"; // Exibe o botão de reiniciar
+                }
+            });
 
-    // Remove pontuação da palavra atual
-    const currentWord = removePunctuation(words[currentWordIndex].toLowerCase());
+            recognition.addEventListener("result", (event) => {
+                const transcript = Array.from(event.results)
+                    .map((result) => result[0].transcript)
+                    .join("")
+                    .trim()
+                    .toLowerCase();
 
-    const transcriptWords = cleanTranscript.split(/\s+/); // Divide a transcrição em palavras
+                // Remove pontuação da transcrição
+                const cleanTranscript = removePunctuation(transcript);
 
-    // Verifica se a palavra atual está contida na transcrição
-    if (transcriptWords.includes(currentWord)) {
-        document.getElementById('current-word').classList.add("text-green-500")
-        currentWordIndex++; // Avança para a próxima palavra
+                // Exibe a transcrição em tempo real
+                transcriptDisplay.textContent = transcript;
 
-        if (currentWordIndex < words.length) {
-            displayWords(); // Atualiza para a próxima palavra
-        } else {
-            statusText.textContent = "Congratulations! You've finished the sentence.";
-            // Não precisamos mais reiniciar o reconhecimento
-        }
-    } else {
-        document.getElementById('current-word').style.color = 'red'; // Palavra incorreta
-    }
-});
+                // Remove pontuação da palavra atual
+                const currentWord = removePunctuation(words[currentWordIndex].toLowerCase());
 
-document.getElementById('restart-button').addEventListener('click', () => {
-    location.reload(); // Recarrega a página para começar de novo
-});
+                const transcriptWords = cleanTranscript.split(/\s+/); // Divide a transcrição em palavras
 
-    </script>
-    <script src="https://mikaio.dev/magic-link-auth/auth.js"></script>
-</body>
+                // Verifica se a palavra atual está contida na transcrição
+                if (transcriptWords.includes(currentWord)) {
+                    document.getElementById("current-word").classList.add("text-green-500");
+                    currentWordIndex++; // Avança para a próxima palavra
+
+                    if (currentWordIndex < words.length) {
+                        displayWords(); // Atualiza para a próxima palavra
+                    } else {
+                        statusText.textContent = "Congratulations! You've finished the sentence.";
+                        // Não precisamos mais reiniciar o reconhecimento
+                    }
+                } else {
+                    document.getElementById("current-word").style.color = "red"; // Palavra incorreta
+                }
+            });
+
+            document.getElementById("restart-button").addEventListener("click", () => {
+                location.reload(); // Recarrega a página para começar de novo
+            });
+        </script>
+        <script src="https://mikaio.dev/magic-link-auth/auth.js"></script>
+    </body>
 </html>

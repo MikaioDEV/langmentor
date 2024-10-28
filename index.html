@@ -17,6 +17,8 @@
                 },
             };
         </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="call_to_donate.js"></script>
     </head>
     <body class="bg-white">
         <!-- Navbar -->
@@ -29,7 +31,6 @@
                 <button id="logoutButton" class="bg-red-500 text-white font-semibold px-2 py-1 md:px-4 md:py-2 rounded hover:bg-red-600 text-sm md:text-base hidden">
                     Logout
                 </button>
-                
             </div>
         </nav>
         <!-- Tabs -->
@@ -81,10 +82,10 @@
         </div>
 
         <script src="scripts/sentences.js"></script>
-        <script>
 
-            const correctSound = new Audio('sounds/correct.mp3');
-            const incorrectSound = new Audio('sounds/incorrect.mp3');
+        <script>
+            const correctSound = new Audio("sounds/correct.mp3");
+            const incorrectSound = new Audio("sounds/incorrect.mp3");
 
             correctSound.volume = 0.5;
             incorrectSound.volume = 0.5;
@@ -92,7 +93,6 @@
             // Ajustar a velocidade de reprodução para 2x
             correctSound.playbackRate = 3.0;
             incorrectSound.playbackRate = 3.0;
-
 
             // Função para selecionar a Next frase com certa aleatoriedade ponderada
             function getNextSentenceIndex() {
@@ -148,18 +148,17 @@
 
                 sentencePtElement.innerHTML = currentSentence.sentencePt.replace(currentSentence.answerPt, `<span style="color: var(--primary); font-weight:bold;">${currentSentence.answerPt}</span>`);
 
-
                 feedbackMessage.classList.add("hidden");
                 nextButton.classList.add("hidden");
                 checkButton.classList.remove("hidden");
                 showAnswerButton.classList.add("hidden");
 
-                speakSentence(completeSentence);
-
                 // Adicionar evento ao botão de fala
                 document.getElementById("speak-btn").addEventListener("click", () => {
                     speakSentence(completeSentence);
                 });
+
+                document.getElementById("speak-btn").click();
 
                 // Adicionar evento para Check a resposta ao pressionar Enter
                 const answerInput = document.getElementById("answer-input");
@@ -215,7 +214,6 @@
 
                     showAnswerButton.classList.remove("hidden");
                 }
-
             }
 
             // Evento do botão de Check resposta
@@ -229,16 +227,14 @@
 
             function showAnswer() {
                 const currentSentence = sentences[currentSentenceIndex];
-                input = document.getElementById("answer-input")
+                input = document.getElementById("answer-input");
                 input.value = currentSentence.answer;
-                input.style.width = Math.min(currentSentence.answer.length + 1, 15) + 'ch';
+                input.style.width = Math.min(currentSentence.answer.length + 1, 15) + "ch";
 
                 // Incrementa o número de vezes que a resposta foi vista
                 currentSentence.views += 1;
 
                 showAnswerButton.classList.add("hidden");
-
-                
             }
 
             // Evento para mostrar a resposta
@@ -267,6 +263,7 @@
 
             // Função adaptada para usar a mesma voz ao falar uma frase
             function speakSentence(sentence) {
+                console.log("hello");
                 if ("speechSynthesis" in window) {
                     const utterance = new SpeechSynthesisUtterance(sentence);
                     utterance.lang = "en-US"; // Configura o idioma para inglês
@@ -291,6 +288,7 @@
 
             // Inicializar o jogo carregando a primeira frase
             loadSentence();
+            donate();
         </script>
         <script src="https://mikaio.dev/magic-link-auth/auth.js"></script>
     </body>
