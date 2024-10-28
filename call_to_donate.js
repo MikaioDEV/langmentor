@@ -9,7 +9,7 @@ function donate(){
         if (!lastDonationTime || currentTime - lastDonationTime > 300000) {
             Swal.fire({
                 title: 'Unlock Langmentor PRO 🌟',
-                html: 'Just $2 <br>🚫 Ad-free experience <br> ♾️ Unlimited learning time<br>Keep this project alive.<br>Thank you 🙏',
+                html: '🚫 Ad-free experience <br> ♾️ Unlimited learning time<br>Keep this project alive.<br>Thank you 🙏',
                 icon: 'info',
                 showCancelButton: true,
                 cancelButtonText: 'Maybe Later 😞',
