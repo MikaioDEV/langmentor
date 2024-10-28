@@ -1,9 +1,23 @@
 function donate(){
     const token = localStorage.getItem('authToken');
-    const lastDonationTime = localStorage.getItem('donate');
+    var lastDonationTime = localStorage.getItem('donate');
     const currentTime = new Date().getTime();
-
-    console.log(lastDonationTime)
+    if (!lastDonationTime){
+        Swal.fire({
+            title: '🌍 Welcome to Langmentor',
+            html: `
+                🎮 Complete sentences in a fun minigame<br>
+                📖 Read to practice your reading skills<br>
+                🗣️ Improve your English speaking!<br><br>
+            `,
+            icon: 'success',
+            confirmButtonText: 'Let\'s Start!',
+            confirmButtonColor: '#0F8AFD',
+        });
+        
+        localStorage.setItem('donate', currentTime);
+        lastDonationTime = currentTime 
+    }
     // Se não existe tempo de doação ou se passaram mais de 5 minutos (300000 ms)
     if (token){
         if (!lastDonationTime || currentTime - lastDonationTime > 300000) {
