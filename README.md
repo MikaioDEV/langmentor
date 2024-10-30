@@ -1,4 +1,4 @@
-# LangmentorAI
+# Langmentor
 
 ## TODO
 
@@ -23,6 +23,15 @@
                 - vocabulary
                 - rush
                 - level
+- [ ] Implementar pagina de profile com
+        estatisticas
+            - Learning_minutes
+            - vocabulary
+            - rush
+            - level
+        email que a pessoa tá logada
+        native language
+        learning language
 
 
 

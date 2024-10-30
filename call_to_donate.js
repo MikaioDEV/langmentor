@@ -1,6 +1,7 @@
 function donate(){
     const token = localStorage.getItem('authToken');
-    var lastDonationTime = localStorage.getItem('donate');
+    var lastDonationTime = localStorage.getItem('donateLangmentor');
+    
     const currentTime = new Date().getTime();
     if (!lastDonationTime){
         Swal.fire({
@@ -14,10 +15,11 @@ function donate(){
             confirmButtonText: 'Let\'s Start!',
             confirmButtonColor: '#0F8AFD',
         });
-        
-        localStorage.setItem('donate', currentTime);
-        lastDonationTime = currentTime 
+        localStorage.setItem('donateLangmentor', currentTime);
+        lastDonationTime = currentTime
+        localStorage.setItem('firstVisitLangmentor', new Date().toISOString());
     }
+
     // Se não existe tempo de doação ou se passaram mais de 5 minutos (300000 ms)
     if (token){
         if (!lastDonationTime || currentTime - lastDonationTime > 300000) {
@@ -40,7 +42,7 @@ function donate(){
                     window.open('https://buy.stripe.com/6oE5oa8H21m93i86oq', '_blank');
                 }
             });
-            localStorage.setItem('donate', currentTime);
+            localStorage.setItem('donateLangmentor', currentTime);
         }
     }
 }
