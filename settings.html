@@ -1,164 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Configurações Langmentor</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #000000;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f4;
+        color: #000000;
+      }
 
-        h3 {
-            color: #000000;
-        }
+      h3 {
+        color: #000000;
+      }
 
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+      form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
 
-        fieldset {
-            border: none;
-            margin-bottom: 20px;
-        }
+      fieldset {
+        border: none;
+        margin-bottom: 20px;
+      }
 
-        legend {
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
+      legend {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+      }
 
-        label {
-            margin-right: 20px;
-            font-size: 1em;
-            display: inline-block;
-            line-height: 1.5;
-        }
+      label {
+        margin-right: 20px;
+        font-size: 1em;
+        display: inline-block;
+        line-height: 1.5;
+      }
 
-        input[type="radio"] {
-            margin-right: 5px;
-        }
+      input[type="radio"] {
+        margin-right: 5px;
+      }
 
-        button {
-            background-color: #6B15EC;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 10px;
-        }
+      button {
+        background-color: #6b15ec;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        margin-top: 10px;
+      }
 
-        button:hover {
-            background-color: #6B15EC;
-        }
+      button:hover {
+        background-color: #6b15ec;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <h3>Configurações Langmentor</h3>
     <form action="/submit-configurations" method="post">
-        <fieldset required>
-            <legend>Qual idioma você é nativo?</legend>
-            <input type="radio" id="pt-native" name="native-language" value="pt">
-            <label for="pt-native">Português</label><br>
-        </fieldset>
+      <fieldset required>
+        <legend>Qual idioma você é nativo?</legend>
+        <input type="radio" id="pt-native" name="native-language" value="pt" />
+        <label for="pt-native">Português</label><br />
+      </fieldset>
 
-        <fieldset required>
-            <legend>Qual idioma você quer praticar?</legend>
-            <input type="radio" id="practice-english" name="practice-language" value="en">
-            <label for="practice-english">English</label><br>
-            <input type="radio" id="practice-french" name="practice-language" value="fr">
-            <label for="practice-french">Français</label><br>
-        </fieldset>
+      <fieldset required>
+        <legend>Qual idioma você quer praticar?</legend>
+        <input
+          type="radio"
+          id="practice-english"
+          name="practice-language"
+          value="en"
+        />
+        <label for="practice-english">English</label><br />
+        <input
+          type="radio"
+          id="practice-french"
+          name="practice-language"
+          value="fr"
+        />
+        <label for="practice-french">Français</label><br />
+      </fieldset>
 
-        <fieldset required>
-            <legend>Tradução Automática</legend>
-            <input type="radio" id="translate-on" name="auto-translate" value="on">
-            <label for="translate-on">Ativar</label><br>
-            <input type="radio" id="translate-off" name="auto-translate" value="off">
-            <label for="translate-off">Desativar</label><br>
-        </fieldset>
+      <fieldset required>
+        <legend>Tradução Automática</legend>
+        <input
+          type="radio"
+          id="translate-on"
+          name="auto-translate"
+          value="on"
+        />
+        <label for="translate-on">Ativar</label><br />
+        <input
+          type="radio"
+          id="translate-off"
+          name="auto-translate"
+          value="off"
+        />
+        <label for="translate-off">Desativar</label><br />
+      </fieldset>
 
-        <button type="submit">Salvar</button>
+      <button type="submit">Salvar</button>
     </form>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Verifica os parâmetros da URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const phone = urlParams.get('w');
-            const token = urlParams.get('t');
+      document.addEventListener("DOMContentLoaded", function () {
+        // Verifica os parâmetros da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const phone = urlParams.get("w");
+        const token = urlParams.get("t");
 
-            // Se não houver whatsapp_number ou token, exibe mensagem de erro
-            if (!phone || !token) {
-                document.body.innerHTML = '<p>Usuário não autorizado.</p>';
-                return;
-            }
+        // Se não houver whatsapp_number ou token, exibe mensagem de erro
+        if (!phone || !token) {
+          document.body.innerHTML = "<p>Usuário não autorizado.</p>";
+          return;
+        }
 
-            document.querySelector('form').addEventListener('submit', function (e) {
-                e.preventDefault(); // Impede o envio do formulário
+        document.querySelector("form").addEventListener("submit", function (e) {
+          e.preventDefault(); // Impede o envio do formulário
 
-                // Obtém os valores selecionados para idioma nativo e idioma a praticar
-                const nativeLanguage = document.querySelector('input[name="native-language"]:checked')?.value;
-                const practiceLanguage = document.querySelector('input[name="practice-language"]:checked')?.value;
-                const autoTranslate = document.querySelector('input[name="auto-translate"]:checked')?.value;
+          // Obtém os valores selecionados para idioma nativo e idioma a praticar
+          const nativeLanguage = document.querySelector(
+            'input[name="native-language"]:checked',
+          )?.value;
+          const practiceLanguage = document.querySelector(
+            'input[name="practice-language"]:checked',
+          )?.value;
+          const autoTranslate = document.querySelector(
+            'input[name="auto-translate"]:checked',
+          )?.value;
 
-                if (nativeLanguage == null) {
-                    alert('Configuração inválida: preencha todos os campos');
-                    return;
-                }
+          if (nativeLanguage == null) {
+            alert("Configuração inválida: preencha todos os campos");
+            return;
+          }
 
-                if (practiceLanguage == null) {
-                    alert('Configuração inválida: preencha todos os campos');
-                    return;
-                }
+          if (practiceLanguage == null) {
+            alert("Configuração inválida: preencha todos os campos");
+            return;
+          }
 
-                if (autoTranslate == null) {
-                    alert('Configuração inválida: preencha todos os campos');
-                    return;
-                }
-                // Valida se os idiomas são diferentes
-                if (nativeLanguage === practiceLanguage) {
-                    alert('Configuração inválida: os idiomas devem ser diferentes.');
-                    return;
-                }
+          if (autoTranslate == null) {
+            alert("Configuração inválida: preencha todos os campos");
+            return;
+          }
+          // Valida se os idiomas são diferentes
+          if (nativeLanguage === practiceLanguage) {
+            alert("Configuração inválida: os idiomas devem ser diferentes.");
+            return;
+          }
 
-                baseUrl = 'https://web-production-1441.up.railway.app'
-                language = nativeLanguage + '/' + practiceLanguage
-                const encodedPhone = encodeURIComponent(phone.trim());
+          baseUrl = "https://web-production-1441.up.railway.app";
+          language = nativeLanguage + "/" + practiceLanguage;
+          const encodedPhone = encodeURIComponent(phone.trim());
 
-                const getUrl = `${baseUrl}/submit-configurations?phone=${encodedPhone}&token=${token}&language=${nativeLanguage}/${practiceLanguage}&automatic_translated=${autoTranslate}`;
+          const getUrl = `${baseUrl}/submit-configurations?phone=${encodedPhone}&token=${token}&language=${nativeLanguage}/${practiceLanguage}&automatic_translated=${autoTranslate}`;
 
-                console.log(getUrl);
+          console.log(getUrl);
 
-                fetch(getUrl)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Supondo que o JSON retornado seja algo como { "success": true, "message": "Sua mensagem aqui" }
-                        alert(data.message); // Isso vai mostrar um alerta com a mensagem
-                    })
-                    .catch(error => {
-                        console.error('Houve um problema com a sua requisição fetch:', error);
-                        alert('Erro: token inválido ou expirado'); // Mostra um alerta em caso de erro na requisição
-                    });
-
+          fetch(getUrl)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then((data) => {
+              // Supondo que o JSON retornado seja algo como { "success": true, "message": "Sua mensagem aqui" }
+              alert(data.message); // Isso vai mostrar um alerta com a mensagem
+            })
+            .catch((error) => {
+              console.error(
+                "Houve um problema com a sua requisição fetch:",
+                error,
+              );
+              alert("Erro: token inválido ou expirado"); // Mostra um alerta em caso de erro na requisição
             });
-
         });
-
+      });
     </script>
-</body>
-
+  </body>
 </html>

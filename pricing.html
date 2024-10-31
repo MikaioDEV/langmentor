@@ -1,84 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Langmentor AI - Pricing</title>
-     <script src="tailwind.js"></script>
+    <script src="scripts/tailwind.js"></script>
     <script>
-        // Configuração para personalizar a cor primária
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#0F8AFD", // Nova cor primária
-                    },
-                },
+      // Configuração para personalizar a cor primária
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0F8AFD", // Nova cor primária
             },
-        };
+          },
+        },
+      };
     </script>
-</head>
-<body class="bg-white">
+  </head>
+  <body class="bg-white">
     <!-- Navbar -->
     <nav class="bg-primary p-2 md:p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <img src="icon.svg" alt="Icon" class="w-8 h-8" />
-                <h1 class="text-white text-center text-xl md:text-2xl font-bold">Langmentor</h1>
-            </div>
-            <button id="logoutButton" class="bg-red-500 text-white font-semibold px-2 py-1 md:px-4 md:py-2 rounded hover:bg-red-600 text-sm md:text-base hidden">
-                Logout
-            </button>
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <img src="icon.svg" alt="Icon" class="w-8 h-8" />
+          <h1 class="text-white text-center text-xl md:text-2xl font-bold">
+            Langmentor
+          </h1>
         </div>
+        <button
+          id="logoutButton"
+          class="bg-red-500 text-white font-semibold px-2 py-1 md:px-4 md:py-2 rounded hover:bg-red-600 text-sm md:text-base hidden"
+        >
+          Logout
+        </button>
+      </div>
     </nav>
     <!-- Tabs -->
     <div class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-2 flex space-x-4 overflow-x-auto whitespace-nowrap">
-            <a href="index.html" class="text-gray-600 hover:text-primary pb-2">Learn</a>
-            <a href="read.html" class="text-gray-600 hover:text-primary pb-2">Read</a>
-            <a href="info.html" class="text-gray-600 hover:text-primary pb-2">Info</a>
-            <a href="pricing.html" class="text-primary border-b-4 border-primary font-semibold pb-2">Pricing</a>
-            <a href="profile.html" class="text-gray-600 hover:text-primary pb-2">Profile</a>
-        </div>
+      <div
+        class="container mx-auto px-4 py-2 flex space-x-4 overflow-x-auto whitespace-nowrap"
+      >
+        <a href="index.html" class="text-gray-600 hover:text-primary pb-2"
+          >Learn</a
+        >
+        <a href="read.html" class="text-gray-600 hover:text-primary pb-2"
+          >Read</a
+        >
+        <a href="info.html" class="text-gray-600 hover:text-primary pb-2"
+          >Info</a
+        >
+        <a
+          href="pricing.html"
+          class="text-primary border-b-4 border-primary font-semibold pb-2"
+          >Pricing</a
+        >
+        <a href="profile.html" class="text-gray-600 hover:text-primary pb-2"
+          >Profile</a
+        >
+      </div>
     </div>
     <!-- Pricing Content -->
     <div class="container mx-auto mt-6 p-6 shadow-lg rounded-lg">
-        <h2 class="text-2xl font-bold mb-4 text-center">Choose Your Plan</h2>
-        <div class="grid grid-cols-1 gap-6 hidden">
-            <!-- List of Reasons -->
-            <div class="border rounded-lg p-6 shadow-md text-center mb-8">
-                <h3 class="text-xl font-semibold mb-4">Reasons to be PRO</h3>
-                <ul class="list-disc list-inside mb-4 text-left mx-auto max-w-lg">
-                    <li class="flex items-center justify-center"><span class="mr-2">🌍</span>Flexible learning schedule that fits your lifestyle.</li>
-                    <li class="flex items-center justify-center"><span class="mr-2">🤝</span>Join a community of passionate learners and improve together.</li>
-                    <li class="flex items-center justify-center"><span class="mr-2">📈</span>Achieve your language goals faster!</li>
-                    <li class="flex items-center justify-center"><span class="mr-2">📚</span>Access to exclusive language learning resources.</li>
-                    <li class="flex items-center justify-center"><span class="mr-2">👩‍🏫</span>Personalized learning plans tailored to your needs.</li>
-                    <li class="flex items-center justify-center"><span class="mr-2">💬</span>Real-time feedback and support from language experts.</li>
-                </ul>
-            </div>
+      <h2 class="text-2xl font-bold mb-4 text-center">Choose Your Plan</h2>
+      <div class="grid grid-cols-1 gap-6 hidden">
+        <!-- List of Reasons -->
+        <div class="border rounded-lg p-6 shadow-md text-center mb-8">
+          <h3 class="text-xl font-semibold mb-4">Reasons to be PRO</h3>
+          <ul class="list-disc list-inside mb-4 text-left mx-auto max-w-lg">
+            <li class="flex items-center justify-center">
+              <span class="mr-2">🌍</span>Flexible learning schedule that fits
+              your lifestyle.
+            </li>
+            <li class="flex items-center justify-center">
+              <span class="mr-2">🤝</span>Join a community of passionate
+              learners and improve together.
+            </li>
+            <li class="flex items-center justify-center">
+              <span class="mr-2">📈</span>Achieve your language goals faster!
+            </li>
+            <li class="flex items-center justify-center">
+              <span class="mr-2">📚</span>Access to exclusive language learning
+              resources.
+            </li>
+            <li class="flex items-center justify-center">
+              <span class="mr-2">👩‍🏫</span>Personalized learning plans tailored
+              to your needs.
+            </li>
+            <li class="flex items-center justify-center">
+              <span class="mr-2">💬</span>Real-time feedback and support from
+              language experts.
+            </li>
+          </ul>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Monthly Plan -->
-            <div class="border rounded-lg p-6 shadow-md text-center">
-                <h3 class="text-xl font-semibold mb-2">Monthly Plan</h3>
-                <p class="text-4xl font-bold mb-4">$9.99</p>
-                <p class="text-sm text-gray-500 mb-4">Get Langmentor PRO access for one month.</p>
-                <button class="bg-primary text-white font-semibold px-4 py-2 rounded hover:bg-blue-600">
-                    Once Time Payment
-                </button>
-            </div>
-            <!-- Annual Plan -->
-            <div class="border rounded-lg p-6 shadow-md text-center">
-                <h3 class="text-xl font-semibold mb-2">Annual Plan</h3>
-                <p class="text-4xl font-bold mb-4">$24.95</p>
-                <p class="text-sm text-gray-500 mb-4">Get Langmentor PRO access for one Year.</p>
-                <button class="bg-primary text-white font-semibold px-4 py-2 rounded hover:bg-blue-600">
-                    Once Time Payment
-                </button>
-            </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Monthly Plan -->
+        <div class="border rounded-lg p-6 shadow-md text-center">
+          <h3 class="text-xl font-semibold mb-2">Monthly Plan</h3>
+          <p class="text-4xl font-bold mb-4">$9.99</p>
+          <p class="text-sm text-gray-500 mb-4">
+            Get Langmentor PRO access for one month.
+          </p>
+          <button
+            class="bg-primary text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Once Time Payment
+          </button>
         </div>
+        <!-- Annual Plan -->
+        <div class="border rounded-lg p-6 shadow-md text-center">
+          <h3 class="text-xl font-semibold mb-2">Annual Plan</h3>
+          <p class="text-4xl font-bold mb-4">$24.95</p>
+          <p class="text-sm text-gray-500 mb-4">
+            Get Langmentor PRO access for one Year.
+          </p>
+          <button
+            class="bg-primary text-white font-semibold px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Once Time Payment
+          </button>
+        </div>
+      </div>
     </div>
-    <script src="https://mikaio.dev/magic-link-auth/auth.js"></script>  
-</body>
+    <script src="https://mikaio.dev/magic-link-auth/auth.js"></script>
+  </body>
 </html>

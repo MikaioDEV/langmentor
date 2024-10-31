@@ -1,291 +1,284 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
 :root {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 body {
-    color: #fff;
+  color: #fff;
 }
 
 .container {
-    width: 100%;
-    height: 100dvh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .login {
-    width: 100%;
-    max-width: 330px;
-    background-color: #9115f1;
-    border-radius: 5px;
-    padding: 20px;
+  width: 100%;
+  max-width: 330px;
+  background-color: #9115f1;
+  border-radius: 5px;
+  padding: 20px;
 }
 
-.login>h2 {
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+.login > h2 {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .login__form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .login__input {
-    border: none;
-    padding: 15px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    background-color: #121212;
-    color: #fff;
-    outline: none;
-    border-radius: 5px;
+  border: none;
+  padding: 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background-color: #121212;
+  color: #fff;
+  outline: none;
+  border-radius: 5px;
 }
 
 .login__input:focus {
-    outline: 2px solid #fff;
+  outline: 2px solid #fff;
 }
 
 .login__button {
-    border: none;
-    padding: 15px;
-    border-radius: 5px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    background-color: #ddd;
-    cursor: pointer;
-    color: #121212;
+  border: none;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background-color: #ddd;
+  cursor: pointer;
+  color: #121212;
 }
 
 .login__button:hover {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .chat {
-    width: 100%;
-    height: 100%;
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .chat__messages {
-    flex-grow: 1;
-    padding: 30px 30px 90px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+  flex-grow: 1;
+  padding: 30px 30px 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .chat__form {
-    background-color: #6b15ec;
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+  background-color: #6b15ec;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 
 .chat__input {
-    border: none;
-    padding: 15px;
-    border-radius: 8px;
-    flex-grow: 1;
-    background-color: #9115f1;
-    outline: none;
-    color: #fff;
-    font-size: 1rem;
+  border: none;
+  padding: 15px;
+  border-radius: 8px;
+  flex-grow: 1;
+  background-color: #9115f1;
+  outline: none;
+  color: #fff;
+  font-size: 1rem;
 }
 
 input::placeholder {
-    color: #fff;
+  color: #fff;
 }
 
 .chat__button {
-    border: none;
-    background: none;
-    color: #fff;
-    cursor: pointer;
+  border: none;
+  background: none;
+  color: #fff;
+  cursor: pointer;
 }
 
-.chat__button>span {
-    font-size: 1.8rem;
+.chat__button > span {
+  font-size: 1.8rem;
 }
 
-.chat__messages>div {
-    padding: 10px;
-    width: 100%;
-    max-width: 250px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 15px;
-    line-height: 22px;
+.chat__messages > div {
+  padding: 10px;
+  width: 100%;
+  max-width: 250px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 15px;
+  line-height: 22px;
 }
 
 .message--self {
-    background-color: #9115f1;
-    color: #fff;
-    border-radius: 10px 10px 0 10px;
-    align-self: flex-end;
+  background-color: #9115f1;
+  color: #fff;
+  border-radius: 10px 10px 0 10px;
+  align-self: flex-end;
 }
 
-
 .message--other {
-    background-color: #6b15ec;
-    color: #fff;
-    border-radius: 0 10px 10px 10px;
-    align-self: flex-start;
+  background-color: #6b15ec;
+  color: #fff;
+  border-radius: 0 10px 10px 10px;
+  align-self: flex-start;
 }
 
 .message--sender {
-    display: block;
-    margin-bottom: 15px;
-    font-weight: 700;
-    color: cadetblue;
+  display: block;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: cadetblue;
 }
 
 .recording {
-    color: red;
-    /* Ou qualquer outra cor que represente "gravação" */
+  color: red;
+  /* Ou qualquer outra cor que represente "gravação" */
 }
-
-
 
 /* AUDIO */
 
 audio {
-    max-width: 30vw !important;
-    animation: audioWidth 0.1s forwards !important;
-    background-color: #9115f1 !important;
-    color: #9115f1 !important;
-
+  max-width: 30vw !important;
+  animation: audioWidth 0.1s forwards !important;
+  background-color: #9115f1 !important;
+  color: #9115f1 !important;
 }
 
-
 audio::-webkit-media-controls-timeline {
-    display: none !important;
-    min-width: 0 !important;
+  display: none !important;
+  min-width: 0 !important;
 }
 
 @keyframes audioWidth {
-    to {
-        max-width: 150px !important;
-    }
+  to {
+    max-width: 150px !important;
+  }
 }
 
 .audio--self {
-    border-radius: 10px 10px 0 10px;
-    align-self: flex-end;
+  border-radius: 10px 10px 0 10px;
+  align-self: flex-end;
 }
 
 .audio--self audio {
-    align-self: flex-end;
+  align-self: flex-end;
 }
 
 /* NAV */
 
 .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #6b15ec;
-    /* Cor de fundo verde WhatsApp */
-    color: white;
-    padding: 10px 20px;
-    z-index: 1000;
-    /* Garante que a navbar fique acima de outros conteúdos */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #6b15ec;
+  /* Cor de fundo verde WhatsApp */
+  color: white;
+  padding: 10px 20px;
+  z-index: 1000;
+  /* Garante que a navbar fique acima de outros conteúdos */
 }
 
-
 .navbar__left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .navbar__right {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 10px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 @media (min-width: 710px) {
-    .navbar__right {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        margin-left: 70vw;
-        gap: 10px;
-    }
+  .navbar__right {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-left: 70vw;
+    gap: 10px;
+  }
 }
 
 @media (min-width: 810px) {
-    .navbar__right {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        margin-left: 70vw;
-        gap: 10px;
-    }
+  .navbar__right {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-left: 70vw;
+    gap: 10px;
+  }
 }
 
 @media (min-width: 1210px) {
-    .navbar__right {
-        display: flex;
-        align-items: end;
-        justify-content: space-between;
-        margin-left: 80vw;
-        gap: 10px;
-    }
+  .navbar__right {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-left: 80vw;
+    gap: 10px;
+  }
 }
 
-
 .navbar__title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
 }
 
 .material-symbols-outlined {
-    font-variation-settings:
-        'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 48;
-    color: #fff;
-    cursor: pointer;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 48;
+  color: #fff;
+  cursor: pointer;
 }
 
 .navbar__profile-pic {
-    width: 50px;
-    /* ou a altura e largura que você preferir */
-    height: 50px;
-    border-radius: 50%;
-    /* Isso faz a imagem ficar circular */
-    object-fit: cover;
-    /* Garante que a imagem cubra a área sem distorção */
+  width: 50px;
+  /* ou a altura e largura que você preferir */
+  height: 50px;
+  border-radius: 50%;
+  /* Isso faz a imagem ficar circular */
+  object-fit: cover;
+  /* Garante que a imagem cubra a área sem distorção */
 }
 
 /* Ajuste o tamanho dos ícones conforme necessário */
 .material-symbols-outlined {
-    font-size: 24px;
-    /* Tamanho do ícone */
+  font-size: 24px;
+  /* Tamanho do ícone */
 }

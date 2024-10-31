@@ -1,160 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Langmentor AI - Profile</title>
-     <script src="tailwind.js"></script>
+    <script src="scripts/tailwind.js"></script>
     <script>
-        // Configuração para personalizar a cor primária
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#0F8AFD", // Nova cor primária
-                    },
-                },
+      // Configuração para personalizar a cor primária
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0F8AFD", // Nova cor primária
             },
-        };
+          },
+        },
+      };
     </script>
-    <script src="call_to_donate.js"></script>
-    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <script src="scripts/call_to_donate.js"></script>
+    <link rel="icon" type="image/svg+xml" href="icon.svg" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</head>
-<body class="bg-gray-100">
-     <!-- Navbar -->
-    <nav class="bg-primary p-2 md:p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <img src="icon.svg" alt="Icon" class="w-8 h-8" />
-                <h1 class="text-white text-center text-xl md:text-2xl font-bold">Langmentor</h1>
-            </div>
-            <button id="logoutButton" class="bg-red-500 text-white font-semibold px-2 py-1 md:px-4 md:py-2 rounded hover:bg-red-600 text-sm md:text-base hidden">
-                Logout
-            </button>
-            
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-primary p-2 md:p-4 fixed top-0 w-full z-10">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <img src="icon.svg" alt="Icon" class="w-8 h-8" />
+          <h1 class="text-white text-center text-xl md:text-2xl font-bold">
+            Langmentor
+          </h1>
         </div>
+        <button
+          id="logoutButton"
+          class="bg-red-500 text-white font-semibold px-2 py-1 md:px-4 md:py-2 rounded hover:bg-red-600 text-sm md:text-base hidden"
+        >
+          Logout
+        </button>
+      </div>
     </nav>
     <!-- Tabs -->
-    <div class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-2 flex space-x-4 overflow-x-auto whitespace-nowrap">
-            <a href="index.html" class="text-gray-600 hover:text-primary pb-2">Learn</a>
-            <a href="read.html" class="text-gray-600 hover:text-primary pb-2">Read</a>
-            <a href="https://buy.stripe.com/6oE5oa8H21m93i86oq" class="text-gray-600 hover:text-primary pb-2">Donate</a>
-            <a href="profile.html" class="text-gray-600 hover:text-primary pb-2">Community</a>
-            <a href="profile.html" class="text-primary border-b-4 border-primary font-semibold pb-2">Profile</a>
-        </div>
+    <div class="bg-white shadow-md fixed bottom-0 w-full">
+      <div class="container mx-auto px-4 py-2 flex justify-around text-center">
+        <a
+          href="index.html"
+          class="flex flex-col items-center text-gray-600 hover:text-primary"
+        >
+          <i class="fas fa-book-open"></i>
+          <span class="text-xs">Learn</span>
+        </a>
+        <a
+          href="read.html"
+          class="flex flex-col items-center text-gray-600 hover:text-primary"
+        >
+          <i class="fas fa-book"></i>
+          <span class="text-xs">Read</span>
+        </a>
+        <a
+          href="https://buy.stripe.com/6oE5oa8H21m93i86oq"
+          class="flex flex-col items-center text-gray-600 hover:text-primary"
+        >
+          <i class="fas fa-donate"></i>
+          <span class="text-xs">Donate</span>
+        </a>
+        <a
+          href="community.html"
+          class="flex flex-col items-center text-gray-600 hover:text-primary"
+        >
+          <i class="fas fa-users"></i>
+          <span class="text-xs">Network</span>
+        </a>
+        <a
+          href="profile.html"
+          class="flex flex-col items-center text-primary font-semibold"
+        >
+          <i class="fas fa-user"></i>
+          <span class="text-xs">Profile</span>
+        </a>
+      </div>
     </div>
     <!-- Profile Content -->
-    <div class="container mx-auto mt-6 p-8 bg-white shadow-lg rounded-lg">
-        <!-- Perfil do Usuário -->
-        <div class="flex flex-col items-center text-center mb-8">
-            <div class="w-24 h-24 rounded-full mb-4 flex items-center justify-center bg-gray-200 text-6xl">
-                😎
-            </div>
-            <h3 id="nickname" class="text-2xl font-semibold">Email</h3>
-            <p id="email_profile" class="text-gray-500 mb-1">user@example.com</p>
+    <div
+      class="container mx-auto p-8 mt-20 bg-white shadow-lg rounded-lg mb-16"
+    >
+      <!-- Perfil do Usuário -->
+      <div class="flex flex-col items-center text-center mb-8">
+        <div
+          class="w-24 h-24 rounded-full mb-4 flex items-center justify-center bg-gray-200 text-6xl"
+        >
+          😎
         </div>
-    
-        <!-- Informações de Progresso -->
-        <div class="grid grid-cols-2 gap-4 mb-8 text-center">
-            <!-- Dias Consecutivos -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow flex flex-col items-center">
-                <h2 class="text-2xl font-semibold mb-1">🔥<br>Rush</h2>
-                <span class="font-bold text-primary text-sm">0 days</span>
-            </div>
-    
-            <!-- Vocabulário Aprendido -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow flex flex-col items-center">
-                <h2 class="text-2xl font-semibold mb-1">📚<br>Vocabulary</h2>
-                <span class="font-bold text-primary text-sm">0 words</span>
-            </div>
-    
-            <!-- Tempo de Estudo -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow flex flex-col items-center">
-                <h2 class="text-2xl font-semibold mb-1">⏳<br>Learning</h2>
-                <span class="font-bold text-primary text-sm">0h 0min</span>
-            </div>
-    
-            <!-- Nível de Fluência -->
-            <div class="bg-gray-50 p-4 rounded-lg shadow flex flex-col items-center">
-                <h2 class="text-2xl font-semibold mb-1">🚀<br>Level</h2>
-                <span class="font-bold text-primary text-sm">A1 - Basic</span>
-            </div>
+        <h3 id="nickname" class="text-2xl font-semibold">Email</h3>
+        <p id="email_profile" class="text-gray-500 mb-1">user@example.com</p>
+      </div>
+
+      <!-- Informações de Progresso -->
+      <div class="grid grid-cols-2 gap-4 mb-8 text-center">
+        <!-- Dias Consecutivos -->
+        <div
+          class="bg-gray-50 p-4 rounded-lg shadow flex flex-col items-center"
+        >
+          <h2 class="text-2xl font-semibold mb-1">🔥<br />Rush</h2>
+          <span class="font-bold text-primary text-sm">0 days</span>
         </div>
-    
-        <!-- Formulário de Configuração -->
-        <form class="space-y-6">
-            <!-- Selecione o idioma nativo -->
 
-            <div>
-                <p id="joined" class="text-center text-sm text-gray-700 mb-1"><strong>Joined:</strong> October 2024</p>
-            </div>
-            <div>
-                <label for="native-language" class="block text-sm font-medium text-gray-700">Native Language</label>
-                <select id="native-language" name="native-language" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                    <option selected value="portuguese">Portuguese</option>
-                </select>
-            </div>
-    
-            <!-- Selecione o idioma que está aprendendo -->
-            <div>
-                <label for="learning-language" class="block text-sm font-medium text-gray-700">Learning Language</label>
-                <select id="learning-language" name="learning-language" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                    <option selected value="english">English</option>
-                </select>
-            </div>
+        <!-- Vocabulário Aprendido -->
+        <div
+          class="bg-gray-50 p-4 rounded-lg shadow flex flex-col items-center"
+        >
+          <h2 class="text-2xl font-semibold mb-1">📚<br />Vocabulary</h2>
+          <span class="font-bold text-primary text-sm">0 words</span>
+        </div>
 
-            
-    
-            <!-- Botão de Envio -->
-            <div class="text-right">
-                <button type="submit" class="mt-4 px-6 py-2 bg-primary text-white font-bold rounded-md shadow hover:bg-primary-dark focus:ring-2 focus:ring-primary focus:ring-opacity-50">Save Settings</button>
-            </div>
-        </form>
+        <!-- Tempo de Estudo -->
+        <div
+          class="bg-gray-50 p-4 rounded-lg shadow flex flex-col items-center"
+        >
+          <h2 class="text-2xl font-semibold mb-1">⏳<br />Learning</h2>
+          <span class="font-bold text-primary text-sm">0h 0min</span>
+        </div>
+
+        <!-- Nível de Fluência -->
+        <div
+          class="bg-gray-50 p-4 rounded-lg shadow flex flex-col items-center"
+        >
+          <h2 class="text-2xl font-semibold mb-1">🚀<br />Level</h2>
+          <span class="font-bold text-primary text-sm">A1 - Basic</span>
+        </div>
+      </div>
+
+      <!-- Formulário de Configuração -->
+      <form class="space-y-6">
+        <!-- Selecione o idioma nativo -->
+
+        <div>
+          <p id="joined" class="text-center text-sm text-gray-700 mb-1">
+            <strong>Joined:</strong> October 2024
+          </p>
+        </div>
+        <div>
+          <label
+            for="native-language"
+            class="block text-sm font-medium text-gray-700"
+            >Native Language</label
+          >
+          <select
+            id="native-language"
+            name="native-language"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
+          >
+            <option selected value="portuguese">Portuguese</option>
+          </select>
+        </div>
+
+        <!-- Selecione o idioma que está aprendendo -->
+        <div>
+          <label
+            for="learning-language"
+            class="block text-sm font-medium text-gray-700"
+            >Learning Language</label
+          >
+          <select
+            id="learning-language"
+            name="learning-language"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
+          >
+            <option selected value="english">English</option>
+          </select>
+        </div>
+
+        <!-- Botão de Envio -->
+        <div class="text-right">
+          <button
+            type="submit"
+            class="mt-4 px-6 py-2 bg-primary text-white font-bold rounded-md shadow hover:bg-primary-dark focus:ring-2 focus:ring-primary focus:ring-opacity-50"
+          >
+            Save Settings
+          </button>
+        </div>
+      </form>
     </div>
-    
+
     <script>
-       let firstVisitLangmentor = localStorage.getItem('firstVisitLangmentor');
+      let firstVisitLangmentor = localStorage.getItem("firstVisitLangmentor");
 
-        // Verifica se é a primeira visita e armazena a data
-        if (!firstVisitLangmentor) {
-            firstVisitLangmentor = new Date().toISOString();
-            localStorage.setItem('firstVisitLangmentor', firstVisitLangmentor);
-        }
+      // Verifica se é a primeira visita e armazena a data
+      if (!firstVisitLangmentor) {
+        firstVisitLangmentor = new Date().toISOString();
+        localStorage.setItem("firstVisitLangmentor", firstVisitLangmentor);
+      }
 
-        // Converte a data ISO para um formato legível
-        const formattedDate = new Date(firstVisitLangmentor).toLocaleDateString("en-US", {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+      // Converte a data ISO para um formato legível
+      const formattedDate = new Date(firstVisitLangmentor).toLocaleDateString(
+        "en-US",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        },
+      );
 
-        // Exibe a data formatada no elemento com id "joined"
-        document.getElementById("joined").innerHTML = "<strong>Joined:</strong> " + formattedDate;
+      // Exibe a data formatada no elemento com id "joined"
+      document.getElementById("joined").innerHTML =
+        "<strong>Joined:</strong> " + formattedDate;
 
+      const email_profile = localStorage.getItem("emailLangmentor");
+      document.getElementById("email_profile").innerText = email_profile;
 
-        const email_profile = localStorage.getItem('emailLangmentor')
-        document.getElementById("email_profile").innerText = email_profile
+      const email = document.getElementById("email_profile").innerText;
+      const nickname = email.split("@")[0];
+      document.getElementById("nickname").innerText = nickname;
 
-        const email = document.getElementById("email_profile").innerText;
-        const nickname = email.split('@')[0];
-        document.getElementById("nickname").innerText = nickname;
-
-        Swal.fire({
-            title: 'Profile Page',
-            html: `
+      Swal.fire({
+        title: "Profile Page",
+        html: `
                 🚧 This page is under development 🚧<br><br>
                 🛠️ We're working hard to bring you new features!<br>
                 🔜 Stay tuned for updates soon!
             `,
-            icon: 'info',
-            confirmButtonText: 'Got it!',
-            confirmButtonColor: '#0F8AFD'
-        });
-
-
+        icon: "info",
+        confirmButtonText: "Got it!",
+        confirmButtonColor: "#0F8AFD",
+      });
     </script>
-    <script src="https://mikaio.dev/magic-link-auth/auth.js"></script>  
-</body>
+    <script src="https://mikaio.dev/magic-link-auth/auth.js"></script>
+  </body>
 </html>
