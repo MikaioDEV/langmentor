@@ -2,6 +2,8 @@
 
 ## TODO
 
+- CAC metade do ticket do produto
+
 # To-Do List
 
 - [x] Game POC
