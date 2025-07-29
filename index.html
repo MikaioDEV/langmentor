@@ -6,19 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Langmentor AI</title>
 
-    <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <!-- App Configuration -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨🏻‍🏫</text></svg>">
+
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨🏻‍🏫</text></svg>">
     <link rel="manifest" href="/manifest.json" />
 
-    <!-- Custom Tailwind Config & Styles -->
     <script>
         // Duolingo-inspired color theme
         tailwind.config = {
@@ -43,28 +41,47 @@
         };
     </script>
     <style>
-        body { background-color: #f7f7f7; font-family: 'Poppins', sans-serif; }
-        .tab { transition: all 0.2s ease-in-out; border-bottom: 4px solid transparent; }
-        .tab-active { color: #58cc02; border-bottom-color: #58cc02; font-weight: 700; }
+        body {
+            background-color: #f7f7f7;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .tab {
+            transition: all 0.2s ease-in-out;
+            border-bottom: 4px solid transparent;
+        }
+
+        .tab-active {
+            color: #58cc02;
+            border-bottom-color: #58cc02;
+            font-weight: 700;
+        }
     </style>
 </head>
 
 <body class="text-text_dark">
 
-    <!-- Top Navigation -->
     <nav class="bg-white p-4 fixed top-0 w-full z-20 shadow-sm">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <span class="text-4xl">👨🏻‍🏫</span>
                 <h1 class="text-2xl font-bold text-text_dark">Langmentor</h1>
             </div>
-            <button id="logoutButton" class="bg-incorrect text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-600 text-sm hidden">
-                Logout
-            </button>
+
+            <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-star text-accent text-xl"></i>
+                    <span id="user-score" class="font-bold text-text_dark text-lg">300</span>
+                </div>
+
+                <button id="logoutButton"
+                    class="bg-incorrect text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-600 text-sm hidden">
+                    Logout
+                </button>
+            </div>
         </div>
     </nav>
 
-    <!-- Main Content Area -->
     <main class="pt-24 pb-8">
         <div class="container mx-auto px-4">
             <div class="flex justify-center border-b-2 border-gray-200 mb-6">
@@ -74,339 +91,435 @@
                 <button id="tab-read-btn" class="tab flex-1 py-3 text-lg text-text_light">
                     <i class="fas fa-microphone-alt mr-2"></i> Read
                 </button>
+                <button id="tab-profile-btn" class="tab flex-1 py-3 text-lg text-text_light">
+                    <i class="fas fa-user mr-2"></i> Profile
+                </button>
             </div>
 
             <div id="learn-container">
                 <div class="bg-white p-6 md:p-8 shadow-lg rounded-2xl">
                     <div class="p-4">
                         <div class="mb-2 text-accent font-bold">Learning English</div>
-                        <p id="sentence" class="text-xl font-semibold text-text_dark mb-4 leading-relaxed">
-                            </p>
+                        <p id="sentence" class="text-xl font-semibold text-text_dark mb-4 leading-relaxed"></p>
                     </div>
                     <div class="bg-background p-4 text-text_light mt-4 rounded-lg">
                         <p id="sentence-pt"></p>
                     </div>
                     <div class="flex justify-end p-4 mt-4 space-x-3">
-                        <button id="show-answer-btn" class="bg-gray-400 text-white px-6 py-3 rounded-full font-bold hidden">Show Answer</button>
-                        <button id="check-btn" class="bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-primary_dark text-lg">Check</button>
-                        <button id="next-btn" class="bg-primary text-white px-8 py-3 rounded-full font-bold hidden text-lg">Next</button>
+                        <button id="show-answer-btn"
+                            class="bg-gray-400 text-white px-6 py-3 rounded-full font-bold hidden">Show Answer</button>
+                        <button id="check-btn"
+                            class="bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-primary_dark text-lg">Check</button>
+                        <button id="next-btn"
+                            class="bg-primary text-white px-8 py-3 rounded-full font-bold hidden text-lg">Next</button>
                     </div>
                     <div id="feedback-message" class="hidden text-center mt-4 font-bold text-lg"></div>
                 </div>
             </div>
 
             <div id="read-container" class="hidden">
-                 <div class="bg-white p-6 md:p-8 shadow-lg rounded-2xl">
+                <div class="bg-white p-6 md:p-8 shadow-lg rounded-2xl">
                     <p class="text-text_light mt-2 mb-4">Click at word to listen pronunciation!</p>
                     <div id="text-container" class="mb-4 text-xl leading-relaxed"></div>
-                    <button id="read-button" class="bg-secondary text-white font-semibold px-4 py-2 rounded-lg inline-flex items-center">🎙️ Read</button>
+                    <button id="read-button"
+                        class="bg-secondary text-white font-semibold px-4 py-2 rounded-lg inline-flex items-center">🎙️
+                        Read</button>
                     <p id="status" class="text-gray-600 mt-2">Click "Read" and start reading aloud!</p>
                     <div id="transcript-container" class="mt-4 bg-background p-4 rounded-lg text-lg">
                         <p><strong>What you're saying:</strong> <span id="transcript"></span></p>
                     </div>
-                    <button id="restart-button-read" class="bg-primary mt-8 text-white font-semibold px-4 py-2 rounded-lg inline-flex items-center" style="display: none;">🔄 Read another</button>
-                 </div>
+                    <button id="restart-button-read"
+                        class="bg-primary mt-8 text-white font-semibold px-4 py-2 rounded-lg inline-flex items-center"
+                        style="display: none;">🔄 Read another</button>
+                </div>
+            </div>
+
+            <div id="profile-container" class="hidden">
+                <div class="bg-white p-6 md:p-8 shadow-lg rounded-2xl">
+                    <h2 class="text-2xl font-bold mb-6 text-center text-text_dark">Your Progress 🏆</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
+                        <div class="bg-background p-4 rounded-lg">
+                            <div class="text-3xl text-secondary mb-1"><i class="fas fa-book-open"></i></div>
+                            <div class="text-lg font-semibold text-text_dark">120</div>
+                            <div class="text-sm text-text_light">Words Learned</div>
+                        </div>
+                        <div class="bg-background p-4 rounded-lg">
+                            <div class="text-3xl text-accent mb-1"><i class="fas fa-fire"></i></div>
+                            <div class="text-lg font-semibold text-text_dark">30</div>
+                            <div class="text-sm text-text_light">Day Streak</div>
+                        </div>
+                        <div class="bg-background p-4 rounded-lg">
+                            <div class="text-3xl text-primary mb-1"><i class="fas fa-star"></i></div>
+                            <div class="text-lg font-semibold text-text_dark">300</div>
+                            <div class="text-sm text-text_light">Total Points</div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-4 text-center text-text_dark">Share Your Success!</h3>
+                    <p class="text-center text-text_light mb-4">Let your friends know about your progress and invite
+                        them to learn!</p>
+
+                    <div class="flex justify-center">
+                        <button id="share-btn"
+                            class="bg-secondary text-white font-bold px-8 py-3 rounded-full hover:bg-blue-600 text-lg inline-flex items-center">
+                            <i class="fas fa-share-alt mr-3"></i> Share with Friends
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
-    
-    <!-- External Data Scripts -->
+
     <script src="scripts/sentences.js"></script>
     <script src="scripts/phrases-read.js"></script>
     <script src="scripts/call_to_donate.js"></script>
-    
-    <!-- Main Application Logic -->
+
     <script>
-    // FIX: Wait for the entire HTML document to be ready before running any scripts
-    document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
 
-        // =================================================================
-        // GAME COMPLETE LOGIC (Original from game_complete.js)
-        // =================================================================
-        (function() {
-            const container = document.getElementById('learn-container');
-            if (!container) return; // Don't run if not on the right view
+            // =================================================================
+            // GAME COMPLETE LOGIC (Original from game_complete.js)
+            // =================================================================
+            (function () {
+                const container = document.getElementById('learn-container');
+                if (!container) return; // Don't run if not on the right view
 
-            const sentenceElement = container.querySelector("#sentence");
-            const sentencePtElement = container.querySelector("#sentence-pt");
-            const feedbackMessage = container.querySelector("#feedback-message");
-            const checkButton = container.querySelector("#check-btn");
-            const nextButton = container.querySelector("#next-btn");
-            const showAnswerButton = container.querySelector("#show-answer-btn");
+                const sentenceElement = container.querySelector("#sentence");
+                const sentencePtElement = container.querySelector("#sentence-pt");
+                const feedbackMessage = container.querySelector("#feedback-message");
+                const checkButton = container.querySelector("#check-btn");
+                const nextButton = container.querySelector("#next-btn");
+                const showAnswerButton = container.querySelector("#show-answer-btn");
 
-            // FIX: Check if elements exist before adding listeners
-            if (!checkButton || !nextButton || !showAnswerButton) return;
+                if (!checkButton || !nextButton || !showAnswerButton) return;
 
-            const correctSound = new Audio("sounds/correct.mp3");
-            const incorrectSound = new Audio("sounds/incorrect.mp3");
-            correctSound.volume = 0.5;
-            incorrectSound.volume = 0.5;
-            correctSound.playbackRate = 3.0;
+                const correctSound = new Audio("sounds/correct.mp3");
+                const incorrectSound = new Audio("sounds/incorrect.mp3");
+                correctSound.volume = 0.5;
+                incorrectSound.volume = 0.5;
+                correctSound.playbackRate = 3.0;
 
-            function getNextSentenceIndex() {
-                const weights = sentences.map((s, i) => ({ index: i, weight: Math.max((s.errors || 0) - (s.correct || 0) + 1, 1) }));
-                const totalWeight = weights.reduce((sum, s) => sum + s.weight, 0);
-                const random = Math.random() * totalWeight;
-                let cumulativeWeight = 0;
-                for (const item of weights) {
-                    cumulativeWeight += item.weight;
-                    if (random < cumulativeWeight) return item.index;
-                }
-                return 0;
-            }
-
-            let currentSentenceIndex = getNextSentenceIndex();
-
-            function loadSentence() {
-                const currentSentence = sentences[currentSentenceIndex];
-                currentSentence.errors = currentSentence.errors || 0;
-                currentSentence.correct = currentSentence.correct || 0;
-                currentSentence.views = currentSentence.views || 0;
-
-                const completeSentence = currentSentence.sentence.replace("____", currentSentence.answer);
-                const inputHTML = `<input id="answer-input" type="text" class="border-b-2 border-gray-300 focus:border-primary outline-none text-center bg-transparent" style="width: 5ch; min-width: 5ch; max-width: 40ch;" oninput="this.style.width = (this.value.length + 1) + 'ch';">`;
-                
-                sentenceElement.innerHTML = `<button id="speak-btn" class="text-2xl text-secondary hover:text-blue-400 align-middle">🔊</button> <span class="align-middle">${currentSentence.sentence.replace("____", inputHTML)}</span>`;
-                
-                const input = sentenceElement.querySelector("#answer-input");
-                input.focus();
-                
-                sentencePtElement.innerHTML = currentSentence.sentencePt.replace(currentSentence.answerPt, `<span class="text-primary font-bold">${currentSentence.answerPt}</span>`);
-
-                feedbackMessage.classList.add("hidden");
-                nextButton.classList.add("hidden");
-                checkButton.classList.remove("hidden");
-                showAnswerButton.classList.add("hidden");
-
-                sentenceElement.querySelector("#speak-btn").addEventListener("click", () => speakSentence(completeSentence));
-                input.addEventListener("keypress", (event) => {
-                    if (event.key === "Enter") {
-                        if (!checkButton.classList.contains("hidden")) checkAnswer();
-                        else if (!nextButton.classList.contains("hidden")) nextButton.click();
+                function getNextSentenceIndex() {
+                    const weights = sentences.map((s, i) => ({ index: i, weight: Math.max((s.errors || 0) - (s.correct || 0) + 1, 1) }));
+                    const totalWeight = weights.reduce((sum, s) => sum + s.weight, 0);
+                    const random = Math.random() * totalWeight;
+                    let cumulativeWeight = 0;
+                    for (const item of weights) {
+                        cumulativeWeight += item.weight;
+                        if (random < cumulativeWeight) return item.index;
                     }
-                });
-            }
-
-            function checkAnswer() {
-                const input = sentenceElement.querySelector("#answer-input");
-                const userAnswer = input.value.toLowerCase().trim();
-                const currentSentence = sentences[currentSentenceIndex];
-                const correctAnswer = currentSentence.answer.toLowerCase();
-
-                if (userAnswer === correctAnswer) {
-                    correctSound.play();
-                    feedbackMessage.textContent = "🎉 Your answer is correct!";
-                    feedbackMessage.className = "text-center mt-4 font-bold text-lg text-correct";
-                    currentSentence.correct++;
-                    checkButton.classList.add("hidden");
-                    nextButton.classList.remove("hidden");
-                } else {
-                    incorrectSound.play();
-                    feedbackMessage.textContent = "❌ Oops! Try again or check the correct answer.";
-                    feedbackMessage.className = "text-center mt-4 font-bold text-lg text-incorrect";
-                    currentSentence.errors++;
-                    showAnswerButton.classList.remove("hidden");
+                    return 0;
                 }
-                feedbackMessage.classList.remove("hidden");
-            }
 
-            function showAnswer() {
-                const input = sentenceElement.querySelector("#answer-input");
-                const currentSentence = sentences[currentSentenceIndex];
-                input.value = currentSentence.answer;
-                input.style.width = (currentSentence.answer.length + 1) + "ch";
-                currentSentence.views++;
-                showAnswerButton.classList.add("hidden");
-            }
+                let currentSentenceIndex = getNextSentenceIndex();
 
-            function speakSentence(sentence) {
-                if ('speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance(sentence);
-                    utterance.lang = 'en-US';
-                    window.speechSynthesis.speak(utterance);
+                function loadSentence() {
+                    const currentSentence = sentences[currentSentenceIndex];
+                    currentSentence.errors = currentSentence.errors || 0;
+                    currentSentence.correct = currentSentence.correct || 0;
+                    currentSentence.views = currentSentence.views || 0;
+
+                    const completeSentence = currentSentence.sentence.replace("____", currentSentence.answer);
+                    const inputHTML = `<input id="answer-input" type="text" class="border-b-2 border-gray-300 focus:border-primary outline-none text-center bg-transparent" style="width: 5ch; min-width: 5ch; max-width: 40ch;" oninput="this.style.width = (this.value.length + 1) + 'ch';">`;
+
+                    sentenceElement.innerHTML = `<button id="speak-btn" class="text-2xl text-secondary hover:text-blue-400 align-middle">🔊</button> <span class="align-middle">${currentSentence.sentence.replace("____", inputHTML)}</span>`;
+
+                    const input = sentenceElement.querySelector("#answer-input");
+                    input.focus();
+
+                    sentencePtElement.innerHTML = currentSentence.sentencePt.replace(currentSentence.answerPt, `<span class="text-primary font-bold">${currentSentence.answerPt}</span>`);
+
+                    feedbackMessage.classList.add("hidden");
+                    nextButton.classList.add("hidden");
+                    checkButton.classList.remove("hidden");
+                    showAnswerButton.classList.add("hidden");
+
+                    sentenceElement.querySelector("#speak-btn").addEventListener("click", () => speakSentence(completeSentence));
+                    input.addEventListener("keypress", (event) => {
+                        if (event.key === "Enter") {
+                            if (!checkButton.classList.contains("hidden")) checkAnswer();
+                            else if (!nextButton.classList.contains("hidden")) nextButton.click();
+                        }
+                    });
                 }
-            }
 
-            checkButton.addEventListener("click", checkAnswer);
-            nextButton.addEventListener("click", () => {
-                currentSentenceIndex = getNextSentenceIndex();
-                loadSentence();
-            });
-            showAnswerButton.addEventListener("click", showAnswer);
-            
-            loadSentence();
-        })();
+                function checkAnswer() {
+                    const input = sentenceElement.querySelector("#answer-input");
+                    const userAnswer = input.value.toLowerCase().trim();
+                    const currentSentence = sentences[currentSentenceIndex];
+                    const correctAnswer = currentSentence.answer.toLowerCase();
 
-
-        // =================================================================
-        // GAME READ LOGIC (Original from game_read.js)
-        // =================================================================
-        (function() {
-            const container = document.getElementById('read-container');
-            if (!container) return;
-
-            const textContainer = container.querySelector("#text-container");
-            const readButton = container.querySelector("#read-button");
-            const statusText = container.querySelector("#status");
-            const transcriptDisplay = container.querySelector("#transcript");
-            const restartButton = container.querySelector("#restart-button-read");
-            
-            if (!textContainer || !readButton || !statusText || !transcriptDisplay || !restartButton) return;
-
-            let words;
-            let currentWordIndex;
-
-            function setupNewSentence() {
-                const randomText = texts[Math.floor(Math.random() * texts.length)];
-                words = randomText.split(" ");
-                currentWordIndex = 0;
-                transcriptDisplay.textContent = "";
-                statusText.textContent = 'Click "Read" and start reading aloud!';
-                restartButton.style.display = 'none';
-                displayWords();
-            }
-
-            function displayWords() {
-                textContainer.innerHTML = words.map((word, index) => {
-                    const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-                    if (index === currentWordIndex) {
-                        return `<span id="current-word" class="font-bold cursor-pointer" onclick="speakWord('${cleanWord}')">${word}</span>`;
-                    } else if (index < currentWordIndex) {
-                        return `<span class="text-green-500 cursor-pointer" onclick="speakWord('${cleanWord}')">${word}</span>`;
-                    }
-                    return `<span class="cursor-pointer" onclick="speakWord('${cleanWord}')">${word}</span>`;
-                }).join(" ");
-            }
-            
-            window.speakWord = function(text) { // Expose to global scope for onclick
-                const speech = new SpeechSynthesisUtterance(text);
-                speech.lang = "en-US";
-                window.speechSynthesis.speak(speech);
-            }
-
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const recognition = new SpeechRecognition();
-            recognition.lang = "en-US";
-            recognition.interimResults = true;
-
-            function removePunctuation(text) {
-                return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
-            }
-
-            let isRecognizing = false;
-
-            readButton.addEventListener("click", () => {
-                if (!isRecognizing) {
-                    try { recognition.start(); } catch(e) { console.error(e); }
-                }
-            });
-
-            recognition.onstart = () => { isRecognizing = true; statusText.textContent = "Listening..."; };
-            recognition.onend = () => {
-                isRecognizing = false;
-                if (currentWordIndex < words.length) {
-                    try { recognition.start(); } catch(e) { console.error(e); }
-                } else {
-                    statusText.textContent = "Recognition finished. Well done!";
-                    restartButton.style.display = "inline-block";
-                }
-            };
-
-            recognition.onresult = (event) => {
-                // FIX: Add guard clause to prevent error after sentence is finished
-                if (currentWordIndex >= words.length) return;
-
-                const transcript = Array.from(event.results).map(result => result[0].transcript).join("").trim().toLowerCase();
-                const cleanTranscript = removePunctuation(transcript);
-                transcriptDisplay.textContent = transcript;
-                
-                const currentWord = removePunctuation(words[currentWordIndex].toLowerCase());
-                const transcriptWords = cleanTranscript.split(/\s+/);
-
-                if (transcriptWords.includes(currentWord)) {
-                    const currentWordEl = textContainer.querySelector("#current-word");
-                    if (currentWordEl) currentWordEl.classList.add("text-green-500");
-                    
-                    currentWordIndex++;
-                    
-                    if (currentWordIndex < words.length) {
-                        displayWords();
+                    if (userAnswer === correctAnswer) {
+                        correctSound.play();
+                        feedbackMessage.textContent = "🎉 Your answer is correct!";
+                        feedbackMessage.className = "text-center mt-4 font-bold text-lg text-correct";
+                        currentSentence.correct++;
+                        checkButton.classList.add("hidden");
+                        nextButton.classList.remove("hidden");
                     } else {
-                        statusText.textContent = "Congratulations! You've finished the sentence.";
-                        recognition.stop();
+                        incorrectSound.play();
+                        feedbackMessage.textContent = "❌ Oops! Try again or check the correct answer.";
+                        feedbackMessage.className = "text-center mt-4 font-bold text-lg text-incorrect";
+                        currentSentence.errors++;
+                        showAnswerButton.classList.remove("hidden");
                     }
-                } else {
-                    const currentWordEl = textContainer.querySelector("#current-word");
-                    if (currentWordEl) currentWordEl.style.color = "red";
+                    feedbackMessage.classList.remove("hidden");
                 }
-            };
 
-            restartButton.addEventListener("click", setupNewSentence);
-            
-            setupNewSentence();
-        })();
+                function showAnswer() {
+                    const input = sentenceElement.querySelector("#answer-input");
+                    const currentSentence = sentences[currentSentenceIndex];
+                    input.value = currentSentence.answer;
+                    input.style.width = (currentSentence.answer.length + 1) + "ch";
+                    currentSentence.views++;
+                    showAnswerButton.classList.add("hidden");
+                }
 
+                function speakSentence(sentence) {
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(sentence);
+                        utterance.lang = 'en-US';
+                        window.speechSynthesis.speak(utterance);
+                    }
+                }
 
-        // =================================================================
-        // UI CONTROL & PWA LOGIC
-        // =================================================================
-        (function() {
-            const tabLearnBtn = document.getElementById('tab-learn-btn');
-            const tabReadBtn = document.getElementById('tab-read-btn');
-            const learnContainer = document.getElementById('learn-container');
-            const readContainer = document.getElementById('read-container');
-
-            function showLearn() {
-                learnContainer.classList.remove('hidden');
-                readContainer.classList.add('hidden');
-                tabLearnBtn.classList.add('tab-active');
-                tabLearnBtn.classList.remove('text-text_light');
-                tabReadBtn.classList.remove('tab-active');
-                tabReadBtn.classList.add('text-text_light');
-            }
-
-            function showRead() {
-                learnContainer.classList.add('hidden');
-                readContainer.classList.remove('hidden');
-                tabLearnBtn.classList.remove('tab-active');
-                tabLearnBtn.classList.add('text-text_light');
-                tabReadBtn.classList.add('tab-active');
-                tabReadBtn.classList.remove('text-text_light');
-            }
-
-            tabLearnBtn.addEventListener('click', showLearn);
-            tabReadBtn.addEventListener('click', showRead);
-        })();
-
-        (function() {
-            if ("serviceWorker" in navigator) {
-                window.addEventListener("load", () => {
-                    navigator.serviceWorker.register("/scripts/service-worker.js")
-                        .catch((error) => console.error("Service Worker registration failed:", error));
+                checkButton.addEventListener("click", checkAnswer);
+                nextButton.addEventListener("click", () => {
+                    currentSentenceIndex = getNextSentenceIndex();
+                    loadSentence();
                 });
-            }
-            let deferredPrompt;
-            window.addEventListener("beforeinstallprompt", (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                Swal.fire({
-                    title: "Install WebApp",
-                    html: `🌟 Works offline<br>⚡ Quick to launch<br>🚀 One-tap learning`,
-                    icon: "info",
-                    showCancelButton: true,
-                    confirmButtonText: "Install Now 💖",
-                    cancelButtonText: "Maybe Later 😞",
-                    confirmButtonColor: "#58cc02",
-                    cancelButtonColor: "#b9babd",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        deferredPrompt.prompt();
-                        deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+                showAnswerButton.addEventListener("click", showAnswer);
+
+                loadSentence();
+            })();
+
+
+            // =================================================================
+            // GAME READ LOGIC (Original from game_read.js)
+            // =================================================================
+            (function () {
+                const container = document.getElementById('read-container');
+                if (!container) return;
+
+                const textContainer = container.querySelector("#text-container");
+                const readButton = container.querySelector("#read-button");
+                const statusText = container.querySelector("#status");
+                const transcriptDisplay = container.querySelector("#transcript");
+                const restartButton = container.querySelector("#restart-button-read");
+
+                if (!textContainer || !readButton || !statusText || !transcriptDisplay || !restartButton) return;
+
+                let words;
+                let currentWordIndex;
+
+                function setupNewSentence() {
+                    const randomText = texts[Math.floor(Math.random() * texts.length)];
+                    words = randomText.split(" ");
+                    currentWordIndex = 0;
+                    transcriptDisplay.textContent = "";
+                    statusText.textContent = 'Click "Read" and start reading aloud!';
+                    restartButton.style.display = 'none';
+                    displayWords();
+                }
+
+                function displayWords() {
+                    textContainer.innerHTML = words.map((word, index) => {
+                        const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+                        if (index === currentWordIndex) {
+                            return `<span id="current-word" class="font-bold cursor-pointer" onclick="speakWord('${cleanWord}')">${word}</span>`;
+                        } else if (index < currentWordIndex) {
+                            return `<span class="text-green-500 cursor-pointer" onclick="speakWord('${cleanWord}')">${word}</span>`;
+                        }
+                        return `<span class="cursor-pointer" onclick="speakWord('${cleanWord}')">${word}</span>`;
+                    }).join(" ");
+                }
+
+                window.speakWord = function (text) { // Expose to global scope for onclick
+                    const speech = new SpeechSynthesisUtterance(text);
+                    speech.lang = "en-US";
+                    window.speechSynthesis.speak(speech);
+                }
+
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.lang = "en-US";
+                recognition.interimResults = true;
+
+                function removePunctuation(text) {
+                    return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
+                }
+
+                let isRecognizing = false;
+
+                readButton.addEventListener("click", () => {
+                    if (!isRecognizing) {
+                        try { recognition.start(); } catch (e) { console.error(e); }
                     }
                 });
-            });
-        })();
-    });
+
+                recognition.onstart = () => { isRecognizing = true; statusText.textContent = "Listening..."; };
+                recognition.onend = () => {
+                    isRecognizing = false;
+                    if (currentWordIndex < words.length) {
+                        try { recognition.start(); } catch (e) { console.error(e); }
+                    } else {
+                        statusText.textContent = "Recognition finished. Well done!";
+                        restartButton.style.display = "inline-block";
+                    }
+                };
+
+                recognition.onresult = (event) => {
+                    if (currentWordIndex >= words.length) return;
+
+                    const transcript = Array.from(event.results).map(result => result[0].transcript).join("").trim().toLowerCase();
+                    const cleanTranscript = removePunctuation(transcript);
+                    transcriptDisplay.textContent = transcript;
+
+                    const currentWord = removePunctuation(words[currentWordIndex].toLowerCase());
+                    const transcriptWords = cleanTranscript.split(/\s+/);
+
+                    if (transcriptWords.includes(currentWord)) {
+                        const currentWordEl = textContainer.querySelector("#current-word");
+                        if (currentWordEl) currentWordEl.classList.add("text-green-500");
+
+                        currentWordIndex++;
+
+                        if (currentWordIndex < words.length) {
+                            displayWords();
+                        } else {
+                            statusText.textContent = "Congratulations! You've finished the sentence.";
+                            recognition.stop();
+                        }
+                    } else {
+                        const currentWordEl = textContainer.querySelector("#current-word");
+                        if (currentWordEl) currentWordEl.style.color = "red";
+                    }
+                };
+
+                restartButton.addEventListener("click", setupNewSentence);
+
+                setupNewSentence();
+            })();
+
+
+            // =================================================================
+            // UI CONTROL & PWA LOGIC
+            // =================================================================
+            (function () {
+                // Tab Elements
+                const tabLearnBtn = document.getElementById('tab-learn-btn');
+                const tabReadBtn = document.getElementById('tab-read-btn');
+                const tabProfileBtn = document.getElementById('tab-profile-btn');
+
+                // Container Elements
+                const learnContainer = document.getElementById('learn-container');
+                const readContainer = document.getElementById('read-container');
+                const profileContainer = document.getElementById('profile-container');
+
+                // Share Button
+                const shareBtn = document.getElementById('share-btn');
+
+                function showLearn() {
+                    learnContainer.classList.remove('hidden');
+                    readContainer.classList.add('hidden');
+                    profileContainer.classList.add('hidden');
+
+                    tabLearnBtn.classList.add('tab-active');
+                    tabLearnBtn.classList.remove('text-text_light');
+                    tabReadBtn.classList.remove('tab-active');
+                    tabReadBtn.classList.add('text-text_light');
+                    tabProfileBtn.classList.remove('tab-active');
+                    tabProfileBtn.classList.add('text-text_light');
+                }
+
+                function showRead() {
+                    learnContainer.classList.add('hidden');
+                    readContainer.classList.remove('hidden');
+                    profileContainer.classList.add('hidden');
+
+                    tabLearnBtn.classList.remove('tab-active');
+                    tabLearnBtn.classList.add('text-text_light');
+                    tabReadBtn.classList.add('tab-active');
+                    tabReadBtn.classList.remove('text-text_light');
+                    tabProfileBtn.classList.remove('tab-active');
+                    tabProfileBtn.classList.add('text-text_light');
+                }
+
+                function showProfile() {
+                    learnContainer.classList.add('hidden');
+                    readContainer.classList.add('hidden');
+                    profileContainer.classList.remove('hidden');
+
+                    tabLearnBtn.classList.remove('tab-active');
+                    tabLearnBtn.classList.add('text-text_light');
+                    tabReadBtn.classList.remove('tab-active');
+                    tabReadBtn.classList.add('text-text_light');
+                    tabProfileBtn.classList.add('tab-active');
+                    tabProfileBtn.classList.remove('text-text_light');
+                }
+
+                tabLearnBtn.addEventListener('click', showLearn);
+                tabReadBtn.addEventListener('click', showRead);
+                tabProfileBtn.addEventListener('click', showProfile);
+
+                // Share functionality
+                if (shareBtn) {
+                    shareBtn.addEventListener('click', () => {
+                        if (navigator.share) {
+                            navigator.share({
+                                title: 'Langmentor AI',
+                                text: 'I\'m learning a new language with Langmentor AI! Join me!',
+                                url: window.location.href
+                            }).catch(console.error);
+                        } else {
+                            // Fallback for browsers without Web Share API
+                            navigator.clipboard.writeText(window.location.href).then(() => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Link Copied!',
+                                    text: 'The link to share has been copied to your clipboard.',
+                                    confirmButtonColor: "#58cc02"
+                                });
+                            });
+                        }
+                    });
+                }
+            })();
+
+            // =================================================================
+            // PWA SERVICE WORKER & INSTALL PROMPT LOGIC
+            // =================================================================
+            (function () {
+                if ("serviceWorker" in navigator) {
+                    window.addEventListener("load", () => {
+                        navigator.serviceWorker.register("/scripts/service-worker.js")
+                            .catch((error) => console.error("Service Worker registration failed:", error));
+                    });
+                }
+                let deferredPrompt;
+                window.addEventListener("beforeinstallprompt", (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    Swal.fire({
+                        title: "Install WebApp",
+                        html: `🌟 Works offline<br>⚡ Quick to launch<br>🚀 One-tap learning`,
+                        icon: "info",
+                        showCancelButton: true,
+                        confirmButtonText: "Install Now 💖",
+                        cancelButtonText: "Maybe Later 😞",
+                        confirmButtonColor: "#58cc02",
+                        cancelButtonColor: "#b9babd",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            deferredPrompt.prompt();
+                            deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+                        }
+                    });
+                });
+            })();
+        });
     </script>
 </body>
+
 </html>
