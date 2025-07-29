@@ -1,39 +1,11 @@
 # Langmentor
 
-## TODO
+Mudar Nome
+Free
+Só abrir e falar
+UX simples e rápido
+Treinar conversacao em ingles com IA
 
-- CAC metade do ticket do produto
-
-# To-Do List
-
-- [x] Game POC
-- [x] Enter nos botoes proximo e verificar
-- [x] Gerar script audios
-- [x] Gerar script frases e traducoes
-- [x] Auth
-- [ ] Implementar Indexed DB
-    - [ ] Tabela english_sentences
-            sentence: string
-            answer: string
-            answerPt: string
-            sentencePt: string
-            views: integer
-            score: integer
-    - [ ] Tabela statistic
-            -stats_english
-                - Learning_minutes
-                - vocabulary
-                - rush
-                - level
-- [ ] Implementar pagina de profile com
-        estatisticas
-            - Learning_minutes
-            - vocabulary
-            - rush
-            - level
-        email que a pessoa tá logada
-        native language
-        learning language
-
-
-
+App single page com webLLM
+TTS -> in browser
+SpeakToText -> in browser

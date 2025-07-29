@@ -1,215 +1,412 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Langmentor AI</title>
-    <script src="scripts/tailwind.js"></script>
-    <script>
-      // Configuração para personalizar a cor primária
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: "#0F8AFD", // Nova cor primária
-            },
-          },
-        },
-      };
-    </script>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="scripts/call_to_donate.js"></script>
-    <link rel="icon" type="image/svg+xml" href="icon.svg" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- App Configuration -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨🏻‍🏫</text></svg>">
     <link rel="manifest" href="/manifest.json" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-  </head>
-  <body class="bg-gray-100">
-    <!-- Navbar -->
-    <nav class="bg-primary p-2 md:p-4 fixed top-0 w-full z-10">
-      <div class="container mx-auto flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-          <img src="icon.svg" alt="Icon" class="w-8 h-8" />
-          <h1 class="text-white text-center text-xl md:text-2xl font-bold">
-            Langmentor
-          </h1>
+
+    <!-- Custom Tailwind Config & Styles -->
+    <script>
+        // Duolingo-inspired color theme
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#58cc02', // Duolingo Green
+                        primary_dark: '#4aa002',
+                        secondary: '#1cb0f6', // Duolingo Blue
+                        accent: '#ff9600',   // Orange
+                        background: '#f7f7f7',
+                        text_dark: '#4c4c4c',
+                        text_light: '#777777',
+                        correct: '#58cc02', // Duolingo Green for feedback
+                        incorrect: '#ef4444', // Red for feedback
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        body { background-color: #f7f7f7; font-family: 'Poppins', sans-serif; }
+        .tab { transition: all 0.2s ease-in-out; border-bottom: 4px solid transparent; }
+        .tab-active { color: #58cc02; border-bottom-color: #58cc02; font-weight: 700; }
+    </style>
+</head>
+
+<body class="text-text_dark">
+
+    <!-- Top Navigation -->
+    <nav class="bg-white p-4 fixed top-0 w-full z-20 shadow-sm">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="text-4xl">👨🏻‍🏫</span>
+                <h1 class="text-2xl font-bold text-text_dark">Langmentor</h1>
+            </div>
+            <button id="logoutButton" class="bg-incorrect text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-600 text-sm hidden">
+                Logout
+            </button>
         </div>
-        <button
-          id="logoutButton"
-          class="bg-red-500 text-white font-semibold px-2 py-1 md:px-4 md:py-2 rounded hover:bg-red-600 text-sm md:text-base hidden"
-        >
-          Logout
-        </button>
-      </div>
     </nav>
 
-    <!-- <div class="bg-white shadow-md"> TODO: Usar essa estruturar em community
-            <div class="container mx-auto px-4 py-2 flex space-x-4 overflow-x-auto whitespace-nowrap">
-                <a href="index.html" class="text-primary border-b-4 border-primary font-semibold pb-2">Learn</a>
-                <a href="read.html" class="text-gray-600 hover:text-primary pb-2">Read</a>
-                <a href="https://buy.stripe.com/6oE5oa8H21m93i86oq" class="text-gray-600 hover:text-primary pb-2">Donate</a>
-                <a href="profile.html" class="text-gray-600 hover:text-primary pb-2">Profile</a>
-               <a href="pricing.html" class="text-gray-600 hover:text-primary pb-2">Pricing</a>
-                <a href="profile.html" class="text-gray-600 hover:text-primary pb-2">Profile</a>
+    <!-- Main Content Area -->
+    <main class="pt-24 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center border-b-2 border-gray-200 mb-6">
+                <button id="tab-learn-btn" class="tab tab-active flex-1 py-3 text-lg">
+                    <i class="fas fa-edit mr-2"></i> Learn
+                </button>
+                <button id="tab-read-btn" class="tab flex-1 py-3 text-lg text-text_light">
+                    <i class="fas fa-microphone-alt mr-2"></i> Read
+                </button>
             </div>
-        </div>  -->
-    <!-- Tabs Fixas -->
-    <div class="bg-white shadow-md fixed bottom-0 w-full">
-      <div class="container mx-auto px-4 py-2 flex justify-around text-center">
-        <a
-          href="index.html"
-          class="flex flex-col items-center text-primary font-semibold"
-        >
-          <i class="fas fa-book-open"></i>
-          <span class="text-xs">Learn</span>
-        </a>
-        <a
-          href="read.html"
-          class="flex flex-col items-center text-gray-600 hover:text-primary"
-        >
-          <i class="fas fa-book"></i>
-          <span class="text-xs">Read</span>
-        </a>
-        <a
-          href="https://buy.stripe.com/6oE5oa8H21m93i86oq"
-          class="flex flex-col items-center text-gray-600 hover:text-primary"
-        >
-          <i class="fas fa-donate"></i>
-          <span class="text-xs">Premium</span>
-        </a>
-        <a
-          href="community.html"
-          class="flex flex-col items-center text-gray-600 hover:text-primary"
-        >
-          <i class="fas fa-users"></i>
-          <span class="text-xs">Network</span>
-        </a>
-        <a
-          href="profile.html"
-          class="flex flex-col items-center text-gray-600 hover:text-primary"
-        >
-          <i class="fas fa-user"></i>
-          <span class="text-xs">Profile</span>
-        </a>
-      </div>
-    </div>
-    <!-- Game Content -->
-    <div
-      class="container mx-auto p-8 mt-20 bg-white shadow-lg rounded-lg mb-16"
-    >
-      <div class="p-4">
-        <div class="mb-2 text-orange-500 font-bold">Learning English</div>
-        <!-- Frase em inglês com a lacuna -->
-        <p id="sentence" class="text-xl font-semibold text-primary mb-4">
-          Where are you? – I am at
-          <input
-            id="answer-input"
-            type="text"
-            class="border-b-2 border-gray-400 focus:border-primary outline-none text-center"
-            style="width: 5ch; max-width: 30ch"
-            oninput="this.style.width = (this.value.length > 0 ? this.value.length : 5) + 'ch';"
-          />
-        </p>
-        <!-- Tipo da palavra -->
-        <!-- <div class="bg-gray-100 rounded-full px-4 py-2 text-gray-700 inline-block">substantivo, singular</div> -->
-      </div>
-      <!-- Frase completa em português -->
-      <div class="bg-gray-100 p-4 text-gray-700 mt-4 rounded-lg">
-        <p id="sentence-pt" class="text-gray-500">
-          Onde você está? Eu estou em casa.
-        </p>
-      </div>
-      <!-- Botão de aprendizado -->
-      <div class="flex justify-end p-4 mt-4">
-        <button
-          id="check-btn"
-          class="bg-primary text-white px-4 py-2 rounded-full hover:bg-opacity-90"
-        >
-          Check
-        </button>
-        <button
-          id="next-btn"
-          class="bg-green-500 text-white px-4 py-2 rounded-full hover:bg-green-600 hidden"
-        >
-          Next
-        </button>
-        <button
-          id="show-answer-btn"
-          class="bg-primary text-white px-4 py-2 rounded-full hover:bg-opacity-90 hidden ml-4"
-        >
-          Show Answer
-        </button>
-      </div>
-      <!-- Mensagem de feedback (correta ou incorreta) -->
-      <div id="feedback-message" class="hidden text-center mt-4"></div>
-    </div>
 
+            <div id="learn-container">
+                <div class="bg-white p-6 md:p-8 shadow-lg rounded-2xl">
+                    <div class="p-4">
+                        <div class="mb-2 text-accent font-bold">Learning English</div>
+                        <p id="sentence" class="text-xl font-semibold text-text_dark mb-4 leading-relaxed">
+                            </p>
+                    </div>
+                    <div class="bg-background p-4 text-text_light mt-4 rounded-lg">
+                        <p id="sentence-pt"></p>
+                    </div>
+                    <div class="flex justify-end p-4 mt-4 space-x-3">
+                        <button id="show-answer-btn" class="bg-gray-400 text-white px-6 py-3 rounded-full font-bold hidden">Show Answer</button>
+                        <button id="check-btn" class="bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-primary_dark text-lg">Check</button>
+                        <button id="next-btn" class="bg-primary text-white px-8 py-3 rounded-full font-bold hidden text-lg">Next</button>
+                    </div>
+                    <div id="feedback-message" class="hidden text-center mt-4 font-bold text-lg"></div>
+                </div>
+            </div>
+
+            <div id="read-container" class="hidden">
+                 <div class="bg-white p-6 md:p-8 shadow-lg rounded-2xl">
+                    <p class="text-text_light mt-2 mb-4">Click at word to listen pronunciation!</p>
+                    <div id="text-container" class="mb-4 text-xl leading-relaxed"></div>
+                    <button id="read-button" class="bg-secondary text-white font-semibold px-4 py-2 rounded-lg inline-flex items-center">🎙️ Read</button>
+                    <p id="status" class="text-gray-600 mt-2">Click "Read" and start reading aloud!</p>
+                    <div id="transcript-container" class="mt-4 bg-background p-4 rounded-lg text-lg">
+                        <p><strong>What you're saying:</strong> <span id="transcript"></span></p>
+                    </div>
+                    <button id="restart-button-read" class="bg-primary mt-8 text-white font-semibold px-4 py-2 rounded-lg inline-flex items-center" style="display: none;">🔄 Read another</button>
+                 </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- External Data Scripts -->
     <script src="scripts/sentences.js"></script>
-    <script src="scripts/game_complete.js"></script>
-
+    <script src="scripts/phrases-read.js"></script>
+    <script src="scripts/call_to_donate.js"></script>
+    
+    <!-- Main Application Logic -->
     <script>
-      donate();
-  
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("/scripts/service-worker.js")
-            .then((registration) => {
-              console.log(
-                "Service Worker registered with scope:",
-                registration.scope,
-              );
-            })
-            .catch((error) => {
-              console.error("Service Worker registration failed:", error);
+    // FIX: Wait for the entire HTML document to be ready before running any scripts
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // =================================================================
+        // GAME COMPLETE LOGIC (Original from game_complete.js)
+        // =================================================================
+        (function() {
+            const container = document.getElementById('learn-container');
+            if (!container) return; // Don't run if not on the right view
+
+            const sentenceElement = container.querySelector("#sentence");
+            const sentencePtElement = container.querySelector("#sentence-pt");
+            const feedbackMessage = container.querySelector("#feedback-message");
+            const checkButton = container.querySelector("#check-btn");
+            const nextButton = container.querySelector("#next-btn");
+            const showAnswerButton = container.querySelector("#show-answer-btn");
+
+            // FIX: Check if elements exist before adding listeners
+            if (!checkButton || !nextButton || !showAnswerButton) return;
+
+            const correctSound = new Audio("sounds/correct.mp3");
+            const incorrectSound = new Audio("sounds/incorrect.mp3");
+            correctSound.volume = 0.5;
+            incorrectSound.volume = 0.5;
+            correctSound.playbackRate = 3.0;
+
+            function getNextSentenceIndex() {
+                const weights = sentences.map((s, i) => ({ index: i, weight: Math.max((s.errors || 0) - (s.correct || 0) + 1, 1) }));
+                const totalWeight = weights.reduce((sum, s) => sum + s.weight, 0);
+                const random = Math.random() * totalWeight;
+                let cumulativeWeight = 0;
+                for (const item of weights) {
+                    cumulativeWeight += item.weight;
+                    if (random < cumulativeWeight) return item.index;
+                }
+                return 0;
+            }
+
+            let currentSentenceIndex = getNextSentenceIndex();
+
+            function loadSentence() {
+                const currentSentence = sentences[currentSentenceIndex];
+                currentSentence.errors = currentSentence.errors || 0;
+                currentSentence.correct = currentSentence.correct || 0;
+                currentSentence.views = currentSentence.views || 0;
+
+                const completeSentence = currentSentence.sentence.replace("____", currentSentence.answer);
+                const inputHTML = `<input id="answer-input" type="text" class="border-b-2 border-gray-300 focus:border-primary outline-none text-center bg-transparent" style="width: 5ch; min-width: 5ch; max-width: 40ch;" oninput="this.style.width = (this.value.length + 1) + 'ch';">`;
+                
+                sentenceElement.innerHTML = `<button id="speak-btn" class="text-2xl text-secondary hover:text-blue-400 align-middle">🔊</button> <span class="align-middle">${currentSentence.sentence.replace("____", inputHTML)}</span>`;
+                
+                const input = sentenceElement.querySelector("#answer-input");
+                input.focus();
+                
+                sentencePtElement.innerHTML = currentSentence.sentencePt.replace(currentSentence.answerPt, `<span class="text-primary font-bold">${currentSentence.answerPt}</span>`);
+
+                feedbackMessage.classList.add("hidden");
+                nextButton.classList.add("hidden");
+                checkButton.classList.remove("hidden");
+                showAnswerButton.classList.add("hidden");
+
+                sentenceElement.querySelector("#speak-btn").addEventListener("click", () => speakSentence(completeSentence));
+                input.addEventListener("keypress", (event) => {
+                    if (event.key === "Enter") {
+                        if (!checkButton.classList.contains("hidden")) checkAnswer();
+                        else if (!nextButton.classList.contains("hidden")) nextButton.click();
+                    }
+                });
+            }
+
+            function checkAnswer() {
+                const input = sentenceElement.querySelector("#answer-input");
+                const userAnswer = input.value.toLowerCase().trim();
+                const currentSentence = sentences[currentSentenceIndex];
+                const correctAnswer = currentSentence.answer.toLowerCase();
+
+                if (userAnswer === correctAnswer) {
+                    correctSound.play();
+                    feedbackMessage.textContent = "🎉 Your answer is correct!";
+                    feedbackMessage.className = "text-center mt-4 font-bold text-lg text-correct";
+                    currentSentence.correct++;
+                    checkButton.classList.add("hidden");
+                    nextButton.classList.remove("hidden");
+                } else {
+                    incorrectSound.play();
+                    feedbackMessage.textContent = "❌ Oops! Try again or check the correct answer.";
+                    feedbackMessage.className = "text-center mt-4 font-bold text-lg text-incorrect";
+                    currentSentence.errors++;
+                    showAnswerButton.classList.remove("hidden");
+                }
+                feedbackMessage.classList.remove("hidden");
+            }
+
+            function showAnswer() {
+                const input = sentenceElement.querySelector("#answer-input");
+                const currentSentence = sentences[currentSentenceIndex];
+                input.value = currentSentence.answer;
+                input.style.width = (currentSentence.answer.length + 1) + "ch";
+                currentSentence.views++;
+                showAnswerButton.classList.add("hidden");
+            }
+
+            function speakSentence(sentence) {
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(sentence);
+                    utterance.lang = 'en-US';
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+
+            checkButton.addEventListener("click", checkAnswer);
+            nextButton.addEventListener("click", () => {
+                currentSentenceIndex = getNextSentenceIndex();
+                loadSentence();
             });
-        });
-      }
+            showAnswerButton.addEventListener("click", showAnswer);
+            
+            loadSentence();
+        })();
 
-      let deferredPrompt;
 
-      window.addEventListener("beforeinstallprompt", (event) => {
-        // Previne o prompt padrão
-        event.preventDefault();
+        // =================================================================
+        // GAME READ LOGIC (Original from game_read.js)
+        // =================================================================
+        (function() {
+            const container = document.getElementById('read-container');
+            if (!container) return;
 
-        // Guarda o evento para disparar mais tarde
-        let deferredPrompt = event;
+            const textContainer = container.querySelector("#text-container");
+            const readButton = container.querySelector("#read-button");
+            const statusText = container.querySelector("#status");
+            const transcriptDisplay = container.querySelector("#transcript");
+            const restartButton = container.querySelector("#restart-button-read");
+            
+            if (!textContainer || !readButton || !statusText || !transcriptDisplay || !restartButton) return;
 
-        // Exibe o modal SweetAlert
-        Swal.fire({
-          title: "Install WebApp",
-          html: `
-                        🌟 Works offline<br>
-                        ⚡ Quick to launch<br>
-                        🚀 One-tap learning
+            let words;
+            let currentWordIndex;
 
-                    `,
-          icon: "info",
-          showCancelButton: true,
-          confirmButtonText: "Install Now 💖",
-          cancelButtonText: "Maybe Later 😞",
-          confirmButtonColor: "#0F8AFD",
-          cancelButtonColor: "#b9babd",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Exibe o prompt de instalação
-            deferredPrompt.prompt();
+            function setupNewSentence() {
+                const randomText = texts[Math.floor(Math.random() * texts.length)];
+                words = randomText.split(" ");
+                currentWordIndex = 0;
+                transcriptDisplay.textContent = "";
+                statusText.textContent = 'Click "Read" and start reading aloud!';
+                restartButton.style.display = 'none';
+                displayWords();
+            }
 
-            // Aguardar a resposta do usuário ao prompt
-            deferredPrompt.userChoice.then((choiceResult) => {
-              if (choiceResult.outcome === "accepted") {
-                console.log("Usuário aceitou instalar a PWA");
-              } else {
-                console.log("Usuário recusou instalar a PWA");
-              }
-              deferredPrompt = null; // Limpa o evento
+            function displayWords() {
+                textContainer.innerHTML = words.map((word, index) => {
+                    const cleanWord = word.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+                    if (index === currentWordIndex) {
+                        return `<span id="current-word" class="font-bold cursor-pointer" onclick="speakWord('${cleanWord}')">${word}</span>`;
+                    } else if (index < currentWordIndex) {
+                        return `<span class="text-green-500 cursor-pointer" onclick="speakWord('${cleanWord}')">${word}</span>`;
+                    }
+                    return `<span class="cursor-pointer" onclick="speakWord('${cleanWord}')">${word}</span>`;
+                }).join(" ");
+            }
+            
+            window.speakWord = function(text) { // Expose to global scope for onclick
+                const speech = new SpeechSynthesisUtterance(text);
+                speech.lang = "en-US";
+                window.speechSynthesis.speak(speech);
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = "en-US";
+            recognition.interimResults = true;
+
+            function removePunctuation(text) {
+                return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
+            }
+
+            let isRecognizing = false;
+
+            readButton.addEventListener("click", () => {
+                if (!isRecognizing) {
+                    try { recognition.start(); } catch(e) { console.error(e); }
+                }
             });
-          }
-        });
-      });
+
+            recognition.onstart = () => { isRecognizing = true; statusText.textContent = "Listening..."; };
+            recognition.onend = () => {
+                isRecognizing = false;
+                if (currentWordIndex < words.length) {
+                    try { recognition.start(); } catch(e) { console.error(e); }
+                } else {
+                    statusText.textContent = "Recognition finished. Well done!";
+                    restartButton.style.display = "inline-block";
+                }
+            };
+
+            recognition.onresult = (event) => {
+                // FIX: Add guard clause to prevent error after sentence is finished
+                if (currentWordIndex >= words.length) return;
+
+                const transcript = Array.from(event.results).map(result => result[0].transcript).join("").trim().toLowerCase();
+                const cleanTranscript = removePunctuation(transcript);
+                transcriptDisplay.textContent = transcript;
+                
+                const currentWord = removePunctuation(words[currentWordIndex].toLowerCase());
+                const transcriptWords = cleanTranscript.split(/\s+/);
+
+                if (transcriptWords.includes(currentWord)) {
+                    const currentWordEl = textContainer.querySelector("#current-word");
+                    if (currentWordEl) currentWordEl.classList.add("text-green-500");
+                    
+                    currentWordIndex++;
+                    
+                    if (currentWordIndex < words.length) {
+                        displayWords();
+                    } else {
+                        statusText.textContent = "Congratulations! You've finished the sentence.";
+                        recognition.stop();
+                    }
+                } else {
+                    const currentWordEl = textContainer.querySelector("#current-word");
+                    if (currentWordEl) currentWordEl.style.color = "red";
+                }
+            };
+
+            restartButton.addEventListener("click", setupNewSentence);
+            
+            setupNewSentence();
+        })();
+
+
+        // =================================================================
+        // UI CONTROL & PWA LOGIC
+        // =================================================================
+        (function() {
+            const tabLearnBtn = document.getElementById('tab-learn-btn');
+            const tabReadBtn = document.getElementById('tab-read-btn');
+            const learnContainer = document.getElementById('learn-container');
+            const readContainer = document.getElementById('read-container');
+
+            function showLearn() {
+                learnContainer.classList.remove('hidden');
+                readContainer.classList.add('hidden');
+                tabLearnBtn.classList.add('tab-active');
+                tabLearnBtn.classList.remove('text-text_light');
+                tabReadBtn.classList.remove('tab-active');
+                tabReadBtn.classList.add('text-text_light');
+            }
+
+            function showRead() {
+                learnContainer.classList.add('hidden');
+                readContainer.classList.remove('hidden');
+                tabLearnBtn.classList.remove('tab-active');
+                tabLearnBtn.classList.add('text-text_light');
+                tabReadBtn.classList.add('tab-active');
+                tabReadBtn.classList.remove('text-text_light');
+            }
+
+            tabLearnBtn.addEventListener('click', showLearn);
+            tabReadBtn.addEventListener('click', showRead);
+        })();
+
+        (function() {
+            if ("serviceWorker" in navigator) {
+                window.addEventListener("load", () => {
+                    navigator.serviceWorker.register("/scripts/service-worker.js")
+                        .catch((error) => console.error("Service Worker registration failed:", error));
+                });
+            }
+            let deferredPrompt;
+            window.addEventListener("beforeinstallprompt", (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                Swal.fire({
+                    title: "Install WebApp",
+                    html: `🌟 Works offline<br>⚡ Quick to launch<br>🚀 One-tap learning`,
+                    icon: "info",
+                    showCancelButton: true,
+                    confirmButtonText: "Install Now 💖",
+                    cancelButtonText: "Maybe Later 😞",
+                    confirmButtonColor: "#58cc02",
+                    cancelButtonColor: "#b9babd",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deferredPrompt.prompt();
+                        deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+                    }
+                });
+            });
+        })();
+    });
     </script>
-    <!-- <script src="https://mikaio.dev/magic-link-auth/auth.js"></script> -->
-  </body>
+</body>
 </html>
