@@ -82,7 +82,7 @@
         </div>
     </nav>
 
-    <main class="pt-24 pb-8">
+    <main class="pt-24 pb-32">
         <div class="container mx-auto px-4">
             <div class="flex justify-center border-b-2 border-gray-200 mb-6">
                 <button id="tab-learn-btn" class="tab tab-active flex-1 py-3 text-lg">
@@ -103,6 +103,17 @@
                         <p id="sentence" class="text-xl font-semibold text-text_dark mb-4 leading-relaxed"></p>
                     </div>
                     <div class="bg-background p-4 text-text_light mt-4 rounded-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-sm font-semibold">Translation:</p>
+                            <select id="native-language" class="text-sm border border-gray-300 rounded px-2 py-1 bg-white">
+                                <option value="pt">Português</option>
+                                <option value="es">Español</option>
+                                <option value="fr">Français</option>
+                                <option value="de">Deutsch</option>
+                                <option value="it">Italiano</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
                         <p id="sentence-pt"></p>
                     </div>
                     <div class="flex justify-end p-4 mt-4 space-x-3">
@@ -141,17 +152,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8">
                         <div class="bg-background p-4 rounded-lg">
                             <div class="text-3xl text-secondary mb-1"><i class="fas fa-book-open"></i></div>
-                            <div class="text-lg font-semibold text-text_dark">120</div>
+                            <div id="words-learned-count" class="text-lg font-semibold text-text_dark">0</div>
                             <div class="text-sm text-text_light">Words Learned</div>
                         </div>
                         <div class="bg-background p-4 rounded-lg">
                             <div class="text-3xl text-accent mb-1"><i class="fas fa-fire"></i></div>
-                            <div class="text-lg font-semibold text-text_dark">30</div>
+                            <div id="day-streak-count" class="text-lg font-semibold text-text_dark">0</div>
                             <div class="text-sm text-text_light">Day Streak</div>
                         </div>
                         <div class="bg-background p-4 rounded-lg">
                             <div class="text-3xl text-primary mb-1"><i class="fas fa-star"></i></div>
-                            <div class="text-lg font-semibold text-text_dark">300</div>
+                            <div id="total-points-count" class="text-lg font-semibold text-text_dark">0</div>
                             <div class="text-sm text-text_light">Total Points</div>
                         </div>
                     </div>
@@ -167,16 +178,141 @@
                         </button>
                     </div>
                 </div>
+                <div class="bg-white p-6 md:p-8 shadow-lg rounded-2xl mt-6">
+                    <h3 class="text-xl font-bold mb-4 text-center text-text_dark">Words 📚</h3>
+                    <div id="words-learned-container" class="max-h-64 overflow-y-auto">
+                        <div id="words-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <!-- Words will be populated here -->
+                        </div>
+                    </div>
+                    <div id="no-words-message" class="text-center text-text_light py-8 hidden">
+                        <i class="fas fa-book-open text-4xl mb-4"></i>
+                        <p>No words learned yet. Start practicing to see your progress!</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 md:p-8 shadow-lg rounded-2xl mt-6">
+                    <h3 class="text-xl font-bold mb-4 text-center text-text_dark">Reading 🎙️</h3>
+                    <div id="read-words-learned-container" class="max-h-64 overflow-y-auto">
+                        <div id="read-words-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <!-- Read words will be populated here -->
+                        </div>
+                    </div>
+                    <div id="no-read-words-message" class="text-center text-text_light py-8 hidden">
+                        <i class="fas fa-microphone-alt text-4xl mb-4"></i>
+                        <p>No read words learned yet. Start reading to see your progress!</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
+    <footer class="bg-background mt-30 py-6 fixed bottom-0 left-0 right-0 z-10">
+        <div class="container mx-auto px-4 text-center">
+            <a href="https://buy.stripe.com/6oE5oa8H21m93i86oq" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="inline-flex items-center px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary_dark transition-colors">
+                <i class="fas fa-heart mr-2"></i>
+                Keep this project alive
+            </a>
+        </div>
+    </footer>
+
+    <script src="scripts/progress.js"></script>
+    <script src="scripts/auto-translate.js"></script>
     <script src="scripts/sentences.js"></script>
     <script src="scripts/phrases-read.js"></script>
     <script src="scripts/call_to_donate.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+
+            // =================================================================
+            // INITIALIZATION
+            // =================================================================
+            (function () {
+                // Clear duplicates on startup
+                window.langmentorProgress.clearDuplicates();
+                
+                // Initialize language selector
+                const languageSelector = document.getElementById('native-language');
+                if (languageSelector) {
+                    // Get current language or detect from browser
+                    const currentLang = window.langmentorProgress.getNativeLanguage();
+                    const detectedLang = navigator.language ? navigator.language.split('-')[0] : 'pt';
+                    
+                    // Map browser language to supported languages
+                    const supportedLanguages = ['pt', 'es', 'fr', 'de', 'it', 'en'];
+                    const detectedSupported = supportedLanguages.includes(detectedLang) ? detectedLang : 'pt';
+                    
+                    // Set the selector to current language or detected language
+                    languageSelector.value = currentLang || detectedSupported;
+                    
+                    // Save detected language if not set
+                    if (!currentLang) {
+                        window.langmentorProgress.setNativeLanguage(detectedSupported);
+                    }
+                    
+                    // Add event listener for language change
+                    languageSelector.addEventListener('change', async (e) => {
+                        window.langmentorProgress.setNativeLanguage(e.target.value);
+                        
+                        // Update current sentence translation immediately
+                        if (window.currentSentenceIndex !== undefined && window.sentencePtElement) {
+                            const currentSentence = sentences[window.currentSentenceIndex];
+                            const nativeLanguage = window.langmentorProgress.getNativeLanguage();
+                            
+                            // Show loading indicator
+                            window.sentencePtElement.innerHTML = '<div class="text-center"><i class="fas fa-spinner fa-spin text-primary"></i> Translating...</div>';
+                            
+                            try {
+                                const translatedSentence = await window.autoTranslator.translateSentence(
+                                    currentSentence.sentence, 
+                                    currentSentence.answer, 
+                                    nativeLanguage
+                                );
+                                window.sentencePtElement.innerHTML = translatedSentence;
+                            } catch (error) {
+                                console.error('Translation failed:', error);
+                                window.sentencePtElement.innerHTML = currentSentence.sentence;
+                            }
+                        }
+                        
+                        // Update profile words list if profile is visible
+                        const profileContainer = document.getElementById('profile-container');
+                        if (profileContainer && !profileContainer.classList.contains('hidden')) {
+                            await window.langmentorProgress.updateUI();
+                        }
+                        
+                        // Show success message
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Language Updated! 🌍',
+                            text: `Translation language changed to ${window.autoTranslator.getLanguageName(nativeLanguage)}`,
+                            confirmButtonColor: "#58cc02",
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    });
+                }
+                
+                // Initial UI update
+                window.langmentorProgress.updateUI();
+                
+                // Show welcome message for new users
+                const progress = window.langmentorProgress.getProgress();
+                if (progress.wordsLearned.length === 0 && progress.totalPoints === 0) {
+                    setTimeout(() => {
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Welcome to Langmentor! 👨🏻‍🏫',
+                            text: 'Start learning English by completing sentences. Earn points and build your streak!',
+                            confirmButtonColor: "#58cc02"
+                        });
+                    }, 1000);
+                }
+            })();
 
             // =================================================================
             // GAME COMPLETE LOGIC (Original from game_complete.js)
@@ -188,6 +324,9 @@
                 const sentenceElement = container.querySelector("#sentence");
                 const sentencePtElement = container.querySelector("#sentence-pt");
                 const feedbackMessage = container.querySelector("#feedback-message");
+                
+                // Make sentencePtElement globally accessible
+                window.sentencePtElement = sentencePtElement;
                 const checkButton = container.querySelector("#check-btn");
                 const nextButton = container.querySelector("#next-btn");
                 const showAnswerButton = container.querySelector("#show-answer-btn");
@@ -213,8 +352,9 @@
                 }
 
                 let currentSentenceIndex = getNextSentenceIndex();
+                window.currentSentenceIndex = currentSentenceIndex; // Make it global
 
-                function loadSentence() {
+                async function loadSentence() {
                     const currentSentence = sentences[currentSentenceIndex];
                     currentSentence.errors = currentSentence.errors || 0;
                     currentSentence.correct = currentSentence.correct || 0;
@@ -228,7 +368,20 @@
                     const input = sentenceElement.querySelector("#answer-input");
                     input.focus();
 
-                    sentencePtElement.innerHTML = currentSentence.sentencePt.replace(currentSentence.answerPt, `<span class="text-primary font-bold">${currentSentence.answerPt}</span>`);
+                    // Get user's native language and translate automatically
+                    const nativeLanguage = window.langmentorProgress.getNativeLanguage();
+                    
+                    try {
+                        const translatedSentence = await window.autoTranslator.translateSentence(
+                            currentSentence.sentence, 
+                            currentSentence.answer, 
+                            nativeLanguage
+                        );
+                        sentencePtElement.innerHTML = translatedSentence;
+                    } catch (error) {
+                        console.error('Translation failed:', error);
+                        sentencePtElement.innerHTML = currentSentence.sentence;
+                    }
 
                     feedbackMessage.classList.add("hidden");
                     nextButton.classList.add("hidden");
@@ -244,7 +397,7 @@
                     });
                 }
 
-                function checkAnswer() {
+                async function checkAnswer() {
                     const input = sentenceElement.querySelector("#answer-input");
                     const userAnswer = input.value.toLowerCase().trim();
                     const currentSentence = sentences[currentSentenceIndex];
@@ -252,16 +405,56 @@
 
                     if (userAnswer === correctAnswer) {
                         correctSound.play();
-                        feedbackMessage.textContent = "🎉 Your answer is correct!";
+                        feedbackMessage.textContent = "🎉 Your answer is correct! +1 point";
                         feedbackMessage.className = "text-center mt-4 font-bold text-lg text-correct";
                         currentSentence.correct++;
+                        
+                        // Add points and word learned
+                        const progress = window.langmentorProgress.getProgress();
+                        const oldStreak = progress.dayStreak;
+                        
+                        window.langmentorProgress.addPoints(1);
+                        window.langmentorProgress.addWordLearned(currentSentence.sentence, currentSentence.answer);
+                        window.langmentorProgress.updateDayStreak();
+                        window.langmentorProgress.updateUI();
+                        
+                        // Check if streak increased
+                        const newProgress = window.langmentorProgress.getProgress();
+                        if (newProgress.dayStreak > oldStreak) {
+                            setTimeout(() => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '🔥 Streak Updated!',
+                                    text: `You've studied for ${newProgress.dayStreak} consecutive days!`,
+                                    confirmButtonColor: "#58cc02"
+                                });
+                            }, 1000);
+                        }
+                        
+                        // Check for milestone achievements
+                        const totalWords = newProgress.wordsLearned.length;
+                        if (totalWords === 10 || totalWords === 25 || totalWords === 50 || totalWords === 100) {
+                            setTimeout(() => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '🎉 Milestone Achieved!',
+                                    text: `Congratulations! You've learned ${totalWords} words!`,
+                                    confirmButtonColor: "#58cc02"
+                                });
+                            }, 2000);
+                        }
+                        
                         checkButton.classList.add("hidden");
                         nextButton.classList.remove("hidden");
                     } else {
                         incorrectSound.play();
-                        feedbackMessage.textContent = "❌ Oops! Try again or check the correct answer.";
+                        feedbackMessage.textContent = "❌ Oops! Try again or check the correct answer. -1 point";
                         feedbackMessage.className = "text-center mt-4 font-bold text-lg text-incorrect";
                         currentSentence.errors++;
+                        
+                        // Lose points for wrong answer
+                        window.langmentorProgress.addPoints(-1);
+                        
                         showAnswerButton.classList.remove("hidden");
                     }
                     feedbackMessage.classList.remove("hidden");
@@ -287,6 +480,7 @@
                 checkButton.addEventListener("click", checkAnswer);
                 nextButton.addEventListener("click", () => {
                     currentSentenceIndex = getNextSentenceIndex();
+                    window.currentSentenceIndex = currentSentenceIndex; // Update global variable
                     loadSentence();
                 });
                 showAnswerButton.addEventListener("click", showAnswer);
@@ -383,6 +577,9 @@
                         const currentWordEl = textContainer.querySelector("#current-word");
                         if (currentWordEl) currentWordEl.classList.add("text-green-500");
 
+                        // Don't add individual words for read game
+                        // Words will be added when sentence is completed
+
                         currentWordIndex++;
 
                         if (currentWordIndex < words.length) {
@@ -390,6 +587,26 @@
                         } else {
                             statusText.textContent = "Congratulations! You've finished the sentence.";
                             recognition.stop();
+                            
+                            // Add points and update streak only when sentence is completed
+                            window.langmentorProgress.addPoints(1);
+                            window.langmentorProgress.addReadWordLearned(words.join(" "), "completed");
+                            window.langmentorProgress.updateDayStreak();
+                            
+                            // Show completion message
+                            setTimeout(() => {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '🎉 Great Reading!',
+                                    text: 'You completed the sentence! +1 point',
+                                    confirmButtonText: 'Read Another',
+                                    confirmButtonColor: "#58cc02"
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        setupNewSentence();
+                                    }
+                                });
+                            }, 500);
                         }
                     } else {
                         const currentWordEl = textContainer.querySelector("#current-word");
@@ -457,6 +674,13 @@
                     tabReadBtn.classList.add('text-text_light');
                     tabProfileBtn.classList.add('tab-active');
                     tabProfileBtn.classList.remove('text-text_light');
+                    
+                                                        // Update profile UI when showing profile
+                    if (window.langmentorProgress) {
+                        setTimeout(() => {
+                            window.langmentorProgress.updateUI();
+                        }, 100);
+                    }
                 }
 
                 tabLearnBtn.addEventListener('click', showLearn);
